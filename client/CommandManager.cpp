@@ -9,6 +9,6 @@ CommandManager::CommandManager() {
 
 template<class T>
 bool CommandManager::AddCommand() {
-	this->commands.push_back(std::make_shared<T>());
+	this->commands.push_back(std::make_unique<T>());
 	return true;
 }
