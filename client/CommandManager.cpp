@@ -32,6 +32,5 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 			return c->execute(splitArgs);
 		}
 	}
-	
 }
 
