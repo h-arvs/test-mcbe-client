@@ -1,5 +1,5 @@
 #pragma once
-#include "commands/Command.h"
+#include "Impl/Command.h"
 #include <vector>
 
 class CommandManager {

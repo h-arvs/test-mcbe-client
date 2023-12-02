@@ -1,6 +1,6 @@
 #include "CommandManager.h"
-#include "commands/PingCommand.h"
-#include "commands/HiCommand.h"
+#include "Impl/PingCommand.h"
+#include "Impl/HiCommand.h"
 
 CommandManager::CommandManager() {
 	this->AddCommand<PingCommand>();

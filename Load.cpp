@@ -1,5 +1,5 @@
 ﻿#include <Windows.h>
-#include "client/CommandManager.h"
+#include "Client/Command/CommandManager.h"
 #include "Utils/Mem.h"
 
 void init() {

@@ -2,7 +2,7 @@
 
 cmake_minimum_required (VERSION 3.15)
 
-add_library(client SHARED "Load.cpp" "client/CommandManager.cpp" "client/CommandManager.h" "client/commands/Command.h" "client/commands/PingCommand.h" "client/commands/PingCommand.cpp" "client/commands/HiCommand.cpp" "client/commands/HiCommand.h" "Utils/Mem.cpp")
+add_library(client SHARED "Load.cpp" "client/Command/Impl/Command.h")
 
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
 
@@ -23,7 +23,7 @@ endif()
 
 
 add_subdirectory(Include)
-add_subdirectory(client)
+add_subdirectory(Client)
 add_subdirectory(Utils)
 
 target_link_libraries(client PRIVATE minhook libhat)

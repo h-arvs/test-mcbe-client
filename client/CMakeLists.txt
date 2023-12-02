@@ -1,3 +1,1 @@
-target_sources(client PRIVATE "CommandManager.cpp")
-
-add_subdirectory(commands)
+add_subdirectory(Command)
