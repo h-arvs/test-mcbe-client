@@ -3,7 +3,6 @@
 #include "Client/Hook/HookManager.h"
 #include "Utils/Mem.h"
 
-
 void init() {
 	AllocConsole();
 	FILE* f;

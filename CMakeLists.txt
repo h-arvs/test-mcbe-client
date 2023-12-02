@@ -6,7 +6,7 @@ add_library(client SHARED "Load.cpp")
 
 set_property(
     TARGET client PROPERTY MSVC_RUNTIME_LIBRARY
-    "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+    MultiThreaded
 )
 
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
@@ -25,6 +25,7 @@ if(NOT libhat_POPULATED)
     message("${libhat_BINARY_DIR}")
     add_subdirectory(${libhat_SOURCE_DIR} ${libhat_BINARY_DIR})
 endif()
+
 # LIBHAT LI BAT LIBHAT 
 add_subdirectory(Include)
 add_subdirectory(Client)

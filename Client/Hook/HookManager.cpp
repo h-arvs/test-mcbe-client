@@ -1,7 +1,6 @@
 #include "HookManager.h"
 #include "Impl/PacketSendHook.h"
 
-
 HookManager::HookManager() {
 	MH_Initialize();
 	this->addHook<PacketSendHook>();
