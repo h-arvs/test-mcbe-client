@@ -10,3 +10,7 @@ void Hook::AutoPatch(std::string_view sig, void* patch, void* old) {
 void Hook::DisablePatch() {
 	MH_DisableHook(reinterpret_cast<LPVOID*>(this->address));
 }
+
+Hook::Hook() {
+	
+}

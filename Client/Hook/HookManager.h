@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 
+
 class HookManager {
 	std::vector<std::unique_ptr<Hook>> hooks;
 	template <class T> bool addHook();

@@ -1,10 +1,17 @@
 ﻿include(FetchContent)
 
-cmake_minimum_required (VERSION 3.15)
+cmake_minimum_required (VERSION 3.18)
 
 add_library(client SHARED "Load.cpp")
 
+set_property(
+    TARGET client PROPERTY MSVC_RUNTIME_LIBRARY
+    "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+)
+
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
+
+
 
 FetchContent_Declare(
     libhat
@@ -18,7 +25,7 @@ if(NOT libhat_POPULATED)
     message("${libhat_BINARY_DIR}")
     add_subdirectory(${libhat_SOURCE_DIR} ${libhat_BINARY_DIR})
 endif()
-
+# LIBHAT LI BAT LIBHAT 
 add_subdirectory(Include)
 add_subdirectory(Client)
 add_subdirectory(Utils)

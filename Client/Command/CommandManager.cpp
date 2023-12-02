@@ -2,7 +2,8 @@
 #include "Impl/PingCommand.h"
 #include "Impl/HiCommand.h"
 
-CommandManager::CommandManager() {
+
+CommandManager::CommandManager(){
 	this->AddCommand<PingCommand>();
 	this->AddCommand<HiCommand>();
 }

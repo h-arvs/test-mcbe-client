@@ -3,10 +3,12 @@
 #include "Client/Hook/HookManager.h"
 #include "Utils/Mem.h"
 
+
 void init() {
 	AllocConsole();
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
+	CommandManager* cm = new CommandManager();
 	HookManager* hm = new HookManager();
 	hm->ApplyAll();
 }
