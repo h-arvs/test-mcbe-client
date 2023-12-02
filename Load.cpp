@@ -1,15 +1,15 @@
 ﻿#include <Windows.h>
 #include "Client/Command/CommandManager.h"
 #include "Client/Hook/HookManager.h"
+#include "Client/System.h"
 #include "Utils/Mem.h"
 
 void init() {
 	AllocConsole();
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
-	CommandManager* cm = new CommandManager();
-	HookManager* hm = new HookManager();
-	hm->ApplyAll();
+	System* sys = new System();
+	sys->tryGetHookManager()->ApplyAll();
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {

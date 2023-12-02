@@ -16,6 +16,7 @@ bool HookManager::ApplyAll() {
 	for (auto& a : this->hooks) {
 		a->patch();
 	}
+	printf("Patched");
 	return true;
 }
 
