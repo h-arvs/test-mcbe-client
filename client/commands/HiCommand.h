@@ -4,5 +4,5 @@
 class HiCommand : public Command {
 public:
 	void execute(std::vector<std::string> args) override;
-	std::string getName() override;
+	std::string_view getName() override;
 };

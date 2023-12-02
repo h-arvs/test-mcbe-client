@@ -5,6 +5,6 @@ void HiCommand::execute(std::vector<std::string> args) {
 	printf("Hello");
 }
 
-std::string HiCommand::getName() {
+std::string_view HiCommand::getName() {
 	return "Hi";
 }

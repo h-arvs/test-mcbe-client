@@ -8,6 +8,6 @@ void PingCommand::execute(std::vector<std::string> args) {
 	}
 }
 
-std::string PingCommand::getName() {
+std::string_view PingCommand::getName() {
 	return "ping";
 }
