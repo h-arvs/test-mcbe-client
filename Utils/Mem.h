@@ -12,6 +12,6 @@ public:
 		auto address = Mem::FindSig(pattern);
 		auto pointer = address + offset;
 		auto casted = *reinterpret_cast<T*>(pointer);
-		return (uintptr_t)reinterpret_cast<void*>(pointer + casted + sizeof(casted));
+		return reinterpret_cast<void*>(pointer + casted + sizeof(casted));
 	};
 };
