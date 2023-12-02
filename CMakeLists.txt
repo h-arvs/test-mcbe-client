@@ -24,5 +24,6 @@ endif()
 
 add_subdirectory(Include)
 add_subdirectory(client)
+add_subdirectory(Utils)
 
 target_link_libraries(client PRIVATE minhook libhat)

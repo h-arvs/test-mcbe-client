@@ -8,7 +8,8 @@ void init() {
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	//CommandManager* cm = new CommandManager();
 	//cm->executeCommand("!ping arg1 arg2");
-	printf("%p\n", Mem::FindSig("48 89 5c 24 ? 48 89 74 24 ? 55 57 41 54 41 56 41 57 48 8d ac 24 ? ? ? ? 48 81 ec ? ? ? ? 48 8b 05 ? ? ? ? 48 33 c4 48 89 85 ? ? ? ? 44 0f b6 f2 48 8b f1")); //ClientInstance::Update
+	auto a = Mem::EvalRefSig<uint32_t>("48 8D 05 ? ? ? ? 48 89 06 33 C0 48 89 86 ? ? ? ? 48 89 86 ? ? ? ? 48 89 86", 3);
+	printf("%p\n", a); // Player vtable ref
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
