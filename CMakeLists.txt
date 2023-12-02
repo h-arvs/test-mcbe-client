@@ -2,7 +2,7 @@
 
 cmake_minimum_required (VERSION 3.15)
 
-add_library(client SHARED "Load.cpp" "client/Command/Impl/Command.h")
+add_library(client SHARED "Load.cpp")
 
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
 
@@ -18,9 +18,6 @@ if(NOT libhat_POPULATED)
     message("${libhat_BINARY_DIR}")
     add_subdirectory(${libhat_SOURCE_DIR} ${libhat_BINARY_DIR})
 endif()
-
-
-
 
 add_subdirectory(Include)
 add_subdirectory(Client)

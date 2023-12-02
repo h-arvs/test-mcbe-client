@@ -1,15 +1,14 @@
 ﻿#include <Windows.h>
 #include "Client/Command/CommandManager.h"
+#include "Client/Hook/HookManager.h"
 #include "Utils/Mem.h"
 
 void init() {
 	AllocConsole();
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
-	//CommandManager* cm = new CommandManager();
-	//cm->executeCommand("!ping arg1 arg2");
-	auto a = Mem::EvalRefSig<uint32_t>("48 8D 05 ? ? ? ? 48 89 06 33 C0 48 89 86 ? ? ? ? 48 89 86 ? ? ? ? 48 89 86", 3);
-	printf("%p\n", a); // Player vtable ref
+	HookManager* hm = new HookManager();
+	hm->ApplyAll();
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
