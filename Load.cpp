@@ -6,9 +6,7 @@ void init() {
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	CommandManager* cm = new CommandManager();
-	for (std::unique_ptr<Command>& c : cm->commands) {
-		c->execute();
-	}
+	cm->executeCommand("!ping arg1 arg2");
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {

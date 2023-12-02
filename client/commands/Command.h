@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
+#include <vector>
+
 class Command {
 public:
-	virtual void execute() = 0;
+	virtual void execute(std::vector<std::string> args) = 0;
+	virtual std::string getName() = 0;
 };
