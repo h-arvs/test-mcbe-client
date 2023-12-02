@@ -2,7 +2,7 @@
 
 cmake_minimum_required (VERSION 3.18)
 
-add_library(client SHARED "Load.cpp" "Client/System.cpp")
+add_library(client SHARED "Load.cpp")
 
 set_property(
     TARGET client PROPERTY MSVC_RUNTIME_LIBRARY
