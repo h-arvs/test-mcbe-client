@@ -22,7 +22,7 @@ add_subdirectory(Utils)
 target_link_libraries(client PRIVATE minhook libhat)
 
 set_property(
-    # anything target that is compiled (has source files) using the STL needs to be here
+    # any target that is compiled (has source files) likely needs to be here
     TARGET client libhat
     PROPERTY MSVC_RUNTIME_LIBRARY
     # Use /MT (statically-linked runtime library)
