@@ -26,3 +26,5 @@ bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
 	return TRUE;
 
 };
+
+static_assert(sizeof(std::string) == 0x20);

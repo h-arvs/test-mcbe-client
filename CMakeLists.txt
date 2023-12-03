@@ -14,8 +14,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libhat)
 
+FetchContent_Declare(
+    minhook
+    GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
+    GIT_TAG f5485b8454544c2f034c78f8f127c1d03dea3636
+)
+FetchContent_MakeAvailable(minhook)
+
 # LIBHAT LI BAT LIBHAT LIBAHAT MOREE LIBJHAT
-add_subdirectory(Include)
 add_subdirectory(Client)
 add_subdirectory(Utils)
 
