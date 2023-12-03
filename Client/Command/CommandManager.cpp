@@ -1,7 +1,6 @@
 #include "CommandManager.h"
 #include "Impl/PingCommand.h"
 #include "Impl/HiCommand.h"
-#include <algorithm>
 
 CommandManager::CommandManager(){
 	this->addCommand<PingCommand>();
