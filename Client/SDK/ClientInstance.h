@@ -1,5 +1,7 @@
 #include "macros.h"
+#include "GuiData.h"
 
 class ClientInstance {
-	DIRECT_ACCESS(class GuiData*, GuiData, 0x560);
+public:
+	DIRECT_ACCESS(GuiData*, GuiData, 0x560);
 };

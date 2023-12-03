@@ -4,7 +4,7 @@
 
 void PingCommand::execute(std::vector<std::string> args) {
 	for (auto s : args) {
-		printf(s.c_str());
+		System::tryGetSystem()->getCommandManager().reply(s);
 	}
 }
 

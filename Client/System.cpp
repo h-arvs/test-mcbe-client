@@ -4,6 +4,7 @@ System* System::currentInstance = nullptr;
 System::System() {
 	System::currentInstance = this;
 	this->commandManager = std::make_unique<CommandManager>();
+	this->game = std::make_unique<Game>();
 	this->hookManager = std::make_unique<HookManager>();
 }
 

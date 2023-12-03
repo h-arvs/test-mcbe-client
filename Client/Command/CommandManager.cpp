@@ -1,6 +1,7 @@
 #include "CommandManager.h"
 #include "Impl/PingCommand.h"
 #include "Impl/HiCommand.h"
+#include "../System.h"
 
 CommandManager::CommandManager(){
 	this->addCommand<PingCommand>();
@@ -32,5 +33,9 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 			return c->execute(splitArgs);
 		}
 	}
+}
+
+void CommandManager::reply(std::string& msg) {
+	System::tryGetSystem()->getGame().getClientInstance()->getGuiData()->displayMessage(msg);
 }
 
