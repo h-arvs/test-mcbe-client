@@ -7,19 +7,18 @@ add_library(client SHARED "Load.cpp")
 
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
 
-FetchContent_Declare(
-    libhat
-    GIT_REPOSITORY https://github.com/BasedInc/libhat.git
-    GIT_TAG 224fd84f37bb5ebcfb65d45db9af438ee68bac59
-)
-FetchContent_MakeAvailable(libhat)
+# download(packagename githubrepo githubtag)
+function(download NAME REPO TAG)
+    FetchContent_Declare(
+        ${NAME}
+        GIT_REPOSITORY ${REPO}
+        GIT_TAG ${TAG} 
+    )
+    FetchContent_MakeAvailable(${NAME})
+endfunction()
 
-FetchContent_Declare(
-    minhook
-    GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
-    GIT_TAG f5485b8454544c2f034c78f8f127c1d03dea3636
-)
-FetchContent_MakeAvailable(minhook)
+download(libhat https://github.com/BasedInc/libhat.git 224fd84f37bb5ebcfb65d45db9af438ee68bac59)
+download(minhook https://github.com/TsudaKageyu/minhook.git f5485b8454544c2f034c78f8f127c1d03dea3636)
 
 # LIBHAT LI BAT LIBHAT LIBAHAT MOREE LIBJHAT
 add_subdirectory(Client)
