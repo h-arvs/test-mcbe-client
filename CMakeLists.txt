@@ -14,7 +14,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libhat)
 
-# LIBHAT LI BAT LIBHAT LIBAHAT
+# LIBHAT LI BAT LIBHAT LIBAHAT MOREE LIBJHAT
 add_subdirectory(Include)
 add_subdirectory(Client)
 add_subdirectory(Utils)
