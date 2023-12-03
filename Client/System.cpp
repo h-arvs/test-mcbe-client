@@ -11,10 +11,10 @@ System* System::tryGetSystem() {
 	return System::currentInstance;
 }
 
-auto System::tryGetCommandManager() -> std::unique_ptr<CommandManager>& {
-	return this->commandManager;
+auto System::getCommandManager() -> CommandManager& {
+	return *this->commandManager;
 }
 
-auto System::tryGetHookManager() ->std::unique_ptr<HookManager>& {
-	return this->hookManager;
+auto System::getHookManager() -> HookManager& {
+	return *this->hookManager;
 }

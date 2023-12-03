@@ -9,7 +9,7 @@ void init() {
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* sys = new System();
-	sys->tryGetHookManager()->ApplyAll();
+	System::tryGetSystem()->getHookManager().ApplyAll();
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
@@ -17,7 +17,7 @@ bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
 	switch (fdwReason) {
 
 	case DLL_PROCESS_ATTACH:
-
+		
 		CreateThread(0, 0, (LPTHREAD_START_ROUTINE)init, hInstance, 0, 0);
 		break;
 

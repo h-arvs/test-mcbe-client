@@ -9,6 +9,6 @@ class System {
 public:
 	System();
 	static System* tryGetSystem();
-	auto tryGetHookManager() -> std::unique_ptr<HookManager>&;
-	auto tryGetCommandManager() -> std::unique_ptr<CommandManager>&;
+	auto getHookManager() -> HookManager&;
+	auto getCommandManager() -> CommandManager&;
 };
