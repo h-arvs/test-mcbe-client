@@ -3,7 +3,7 @@ project(Test)
 
 include(FetchContent)
 
-add_library(client SHARED "Load.cpp")
+add_library(client SHARED "Load.cpp" "Client/Command/Impl/Command.cpp")
 
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
 

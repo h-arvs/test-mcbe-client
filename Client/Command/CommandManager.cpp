@@ -33,6 +33,9 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 			return c->execute(splitArgs);
 		}
 	}
+
+	auto msg = "No command found with name " + splitArgs.at(0);
+	return this->reply(msg);
 }
 
 void CommandManager::reply(std::string& msg) {
