@@ -1,6 +1,7 @@
 #include "CommandManager.h"
 #include "Impl/PingCommand.h"
 #include "Impl/HiCommand.h"
+#include <algorithm>
 
 CommandManager::CommandManager(){
 	this->addCommand<PingCommand>();
@@ -27,7 +28,7 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 	}
 
 	for (auto& c : this->commands) {
-		if (splitArgs.at(0).rfind(c->getName()) == 0) {
+		if (c->getName().rfind(splitArgs.at(0)) == 0) {
 			splitArgs.erase(splitArgs.begin()); // remove command name from arg list
 			return c->execute(splitArgs);
 		}

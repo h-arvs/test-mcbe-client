@@ -1,11 +1,16 @@
 #include "PacketSendHook.h"
 #include "../../Command/CommandManager.h"
-
+#include "../../System.h"
 void(__fastcall* PacketSendO)(void*, Packet*);
 void __fastcall PacketSend_Callback(void* _this, Packet* packet) {
 	auto a = packet->getId();
 	if (a == PacketID::TextPacket) {
-		
+		auto b = reinterpret_cast<TextPacket*>(packet);
+		auto& cm = System::tryGetSystem()->getCommandManager();
+		if (b->text.starts_with(cm.commandPrefix)) {
+			cm.executeCommand(b->text);
+			return;
+		}
 	}
 	return PacketSendO(_this, packet);
 }
