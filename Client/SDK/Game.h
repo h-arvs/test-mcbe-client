@@ -1,6 +1,6 @@
 #pragma once
+#include "ClientInstance.h"
 
-class ClientInstance;
 class Game {
 	ClientInstance* clientInstance = nullptr;
 public:
