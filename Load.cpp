@@ -9,7 +9,7 @@ void init() {
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* sys = new System();
-	System::tryGetSystem()->getHookManager().applyAll();
+	sys->getHookManager().applyAll();
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {

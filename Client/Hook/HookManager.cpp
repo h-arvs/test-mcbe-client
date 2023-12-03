@@ -1,9 +1,11 @@
 #include "HookManager.h"
 #include "Impl/PacketSendHook.h"
+#include "Impl/CIUpdateHook.h"
 
 HookManager::HookManager() {
 	MH_Initialize();
 	this->addHook<PacketSendHook>();
+	this->addHook<CIUpdateHook>();
 }
 
 template <class T>

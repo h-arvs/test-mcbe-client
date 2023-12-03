@@ -18,3 +18,7 @@ auto System::getCommandManager() -> CommandManager& {
 auto System::getHookManager() -> HookManager& {
 	return *this->hookManager;
 }
+
+auto System::getGame() -> Game& {
+	return *this->game;
+}
