@@ -12,7 +12,7 @@ bool HookManager::addHook() {
 	return true;
 }
 
-bool HookManager::ApplyAll() {
+bool HookManager::applyAll() {
 	for (auto& a : this->hooks) {
 		a->patch();
 	}
@@ -20,14 +20,15 @@ bool HookManager::ApplyAll() {
 	return true;
 }
 
-bool HookManager::UnApplyAll() {
+bool HookManager::unApplyAll() {
+	printf("UnPatched");
 	for (auto& a : this->hooks) {
-		a->DisablePatch();
+		a->disablePatch();
 	}
 	return true;
 }
 
 HookManager::~HookManager() {
-	this->UnApplyAll();
+	this->unApplyAll();
 	MH_Uninitialize();
 }

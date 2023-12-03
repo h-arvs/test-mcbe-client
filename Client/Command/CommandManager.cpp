@@ -3,12 +3,12 @@
 #include "Impl/HiCommand.h"
 
 CommandManager::CommandManager(){
-	this->AddCommand<PingCommand>();
-	this->AddCommand<HiCommand>();
+	this->addCommand<PingCommand>();
+	this->addCommand<HiCommand>();
 }
 
 template<class T>
-bool CommandManager::AddCommand() {
+bool CommandManager::addCommand() {
 	this->commands.push_back(std::make_unique<T>());
 	return true;
 }

@@ -9,6 +9,6 @@ class HookManager {
 public:
 	HookManager();
 	~HookManager();
-	bool ApplyAll();
-	bool UnApplyAll();
+	bool applyAll();
+	bool unApplyAll();
 };
