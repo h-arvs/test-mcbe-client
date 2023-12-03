@@ -7,7 +7,7 @@ add_library(client SHARED "Load.cpp")
 
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
 
-# download(packagename githubrepo githubtag)
+# download(packagename github repo git tag)
 function(download NAME REPO TAG)
     FetchContent_Declare(
         ${NAME}
