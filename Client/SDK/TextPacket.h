@@ -1,7 +1,7 @@
 #pragma once
 #include "Packet.h"
 
-class TextPacket : Packet
+class TextPacket : public Packet
 {
 public:
 	char pad_0030[8]; //0x0030
