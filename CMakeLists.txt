@@ -19,12 +19,16 @@ endfunction()
 
 download(libhat https://github.com/BasedInc/libhat.git 224fd84f37bb5ebcfb65d45db9af438ee68bac59)
 download(minhook https://github.com/TsudaKageyu/minhook.git f5485b8454544c2f034c78f8f127c1d03dea3636)
+download(entt https://github.com/skypjack/entt.git master)
+
+add_compile_definitions(ENTT_SPARSE_PAGE=2048)
+add_compile_definitions(ENTT_PACKED_PAGE=128)
 
 # LIBHAT LI BAT LIBHAT LIBAHAT MOREE LIBJHAT
 add_subdirectory(Client)
 add_subdirectory(Utils)
 
-target_link_libraries(client PRIVATE minhook libhat)
+target_link_libraries(client PRIVATE minhook libhat EnTT)
 
 set_property(
     # any target that is compiled (has source files) likely needs to be here

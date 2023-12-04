@@ -1,9 +1,15 @@
 ﻿#include <Windows.h>
 #include "Client/Command/CommandManager.h"
 #include "Client/Hook/HookManager.h"
+#include "Client/Module/ModuleManager.h"
 #include "Client/System.h"
 #include "Utils/Mem.h"
+#include "Client/Module/Impl/ModuleInstanceComponent.h"
+#include <entt/entt.hpp>
 
+struct TestModuleComponent {
+	std::string name;
+};
 void init() {
 	AllocConsole();
 	FILE* f;

@@ -1,0 +1,1 @@
+target_sources(client PRIVATE "TestModule.cpp")
