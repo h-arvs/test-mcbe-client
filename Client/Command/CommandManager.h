@@ -6,6 +6,7 @@
 
 class CommandManager {
 	template<class T> bool addCommand();
+	template <class... Ts> void addCommands();
 public:
 	std::string commandPrefix = "!";
 	entt::registry commands;

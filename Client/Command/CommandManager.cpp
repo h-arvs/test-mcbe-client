@@ -5,8 +5,10 @@
 #include "Impl/CommandInstanceComponent.h"
 
 CommandManager::CommandManager(){
-	this->addCommand<PingCommand>();
-	this->addCommand<HiCommand>();
+	this->addCommands<
+		PingCommand,
+		HiCommand
+	>();
 }
 
 template<class T>
@@ -16,6 +18,10 @@ bool CommandManager::addCommand() {
 	return true;
 }
 
+template <class... Ts>
+void CommandManager::addCommands() {
+	(this->addCommand<Ts>(), ...);
+}
 void CommandManager::executeCommand(std::string rawCommandString) {
 	auto a = rawCommandString;
 	a.erase(0, this->commandPrefix.length());
@@ -29,9 +35,8 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 		a.erase(0, pos + hold.length());
 	}
 
-	auto view = this->commands.view<CommandInstanceComponent>();
-	for (auto c : view) {
-		auto&  instance = view.get<CommandInstanceComponent>(c).instance;
+	for (auto [e, c] : this->commands.view<CommandInstanceComponent>().each()) {
+		auto& instance = c.instance;
 		if (instance->getName().rfind(splitArgs.at(0)) == 0) {
 			splitArgs.erase(splitArgs.begin()); // remove command name from arg list
 			return instance->execute(splitArgs);
