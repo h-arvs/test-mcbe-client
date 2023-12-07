@@ -2,7 +2,6 @@
 #include "Impl/PingCommand.h"
 #include "Impl/HiCommand.h"
 #include "../System.h"
-#include "Impl/CommandInstanceComponent.h"
 
 CommandManager::CommandManager(){
 	this->addCommands<
@@ -13,8 +12,7 @@ CommandManager::CommandManager(){
 
 template<class T>
 bool CommandManager::addCommand() {
-	auto command = this->commands.create();
-	this->commands.emplace<CommandInstanceComponent>(command, std::make_unique<T>());
+	this->commands.push_back(std::make_unique<T>());
 	return true;
 }
 
@@ -22,6 +20,15 @@ template <class... Ts>
 void CommandManager::addCommands() {
 	(this->addCommand<Ts>(), ...);
 }
+
+std::unique_ptr<Command>& CommandManager::findCommand(std::string name) {
+	for (auto& instance : this->commands) {
+		if (instance->getName() == name) {
+			return instance;
+		}
+	}
+}
+
 void CommandManager::executeCommand(std::string rawCommandString) {
 	auto a = rawCommandString;
 	a.erase(0, this->commandPrefix.length());
@@ -35,16 +42,13 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 		a.erase(0, pos + hold.length());
 	}
 
-	for (auto [e, c] : this->commands.view<CommandInstanceComponent>().each()) {
-		auto& instance = c.instance;
-		if (instance->getName().rfind(splitArgs.at(0)) == 0) {
-			splitArgs.erase(splitArgs.begin()); // remove command name from arg list
-			return instance->execute(splitArgs);
-		}
+	auto& instance = this->findCommand(splitArgs.at(0));
+	if (instance != nullptr) {
+		splitArgs.erase(splitArgs.begin()); // remove command name from arg list
+		return instance->caughtExecute(splitArgs);
 	}
-
-	auto msg = "No command found with name " + splitArgs.at(0);
-	return this->reply(msg);
+	
+	return executeResult::COMMANDNOTFOUND;
 }
 
 void CommandManager::reply(std::string& msg) {

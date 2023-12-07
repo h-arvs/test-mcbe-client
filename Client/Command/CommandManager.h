@@ -1,16 +1,16 @@
 #pragma once
 #include "Impl/Command.h"
 #include <vector>
-#include "entt/entt.hpp"
-
+#include <iostream>
 
 class CommandManager {
 	template<class T> bool addCommand();
 	template <class... Ts> void addCommands();
+	std::vector<std::unique_ptr<Command>> commands;
 public:
 	std::string commandPrefix = "!";
-	entt::registry commands;
 	void executeCommand(std::string rawCommandString);
+	std::unique_ptr<Command>& findCommand(std::string name);
 	void reply(std::string&);
 	CommandManager();
 };

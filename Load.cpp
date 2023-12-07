@@ -1,21 +1,12 @@
 ﻿#include <Windows.h>
-#include "Client/Command/CommandManager.h"
-#include "Client/Hook/HookManager.h"
-#include "Client/Module/ModuleManager.h"
 #include "Client/System.h"
-#include "Utils/Mem.h"
-#include "Client/Module/Impl/ModuleInstanceComponent.h"
-#include <entt/entt.hpp>
 
-struct TestModuleComponent {
-	std::string name;
-};
 void init() {
 	AllocConsole();
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
-	System* sys = new System();
-	sys->getHookManager().applyAll();
+	System* system = new System();
+	system->getHookManager().applyAll();
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
