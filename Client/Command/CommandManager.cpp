@@ -45,10 +45,11 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 	auto& instance = this->findCommand(splitArgs.at(0));
 	if (instance != nullptr) {
 		splitArgs.erase(splitArgs.begin()); // remove command name from arg list
-		return instance->caughtExecute(splitArgs);
+		return instance->execute(splitArgs);
 	}
 	
-	return executeResult::COMMANDNOTFOUND;
+	auto msg = "Command not found with name " + splitArgs.at(0);
+	this->reply(msg);
 }
 
 void CommandManager::reply(std::string& msg) {
