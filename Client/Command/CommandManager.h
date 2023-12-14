@@ -1,12 +1,8 @@
 #pragma once
 #include "Impl/Command.h"
-#include <vector>
-#include <iostream>
+#include "../../Utils/Manager.h"
 
-class CommandManager {
-	template<class T> bool addCommand();
-	template <class... Ts> void addCommands();
-	std::vector<std::unique_ptr<Command>> commands;
+class CommandManager : public Manager<Command> {
 public:
 	std::string commandPrefix = "!";
 	void executeCommand(std::string rawCommandString);

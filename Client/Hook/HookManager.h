@@ -1,11 +1,8 @@
 #pragma once
 #include "Impl\Hook.h"
-#include <vector>
-#include <iostream>
+#include "../../Utils/Manager.h"
 
-class HookManager {
-	std::vector<std::unique_ptr<Hook>> hooks;
-	template <class T> bool addHook();
+class HookManager : public Manager<Hook> {
 public:
 	HookManager();
 	~HookManager();

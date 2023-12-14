@@ -1,13 +1,9 @@
 #pragma once
 
 #include "Module.h"
-#include <vector>
-#include <iostream>
+#include "../../Utils/Manager.h"
 
-class ModuleManager {
+class ModuleManager : public Manager<Module> {
 public:
-	std::vector<std::unique_ptr<Module>> modules;
 	ModuleManager();
-	template <class T> void addModule();
-	template <class... Ts> void addModules();
 };

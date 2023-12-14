@@ -4,25 +4,14 @@
 #include "../System.h"
 
 CommandManager::CommandManager(){
-	this->addCommands<
+	this->addItems<
 		PingCommand,
 		HiCommand
 	>();
 }
 
-template<class T>
-bool CommandManager::addCommand() {
-	this->commands.push_back(std::make_unique<T>());
-	return true;
-}
-
-template <class... Ts>
-void CommandManager::addCommands() {
-	(this->addCommand<Ts>(), ...);
-}
-
 std::unique_ptr<Command>& CommandManager::findCommand(std::string name) {
-	for (auto& instance : this->commands) {
+	for (auto& instance : this->items) {
 		if (instance->getName() == name) {
 			return instance;
 		}

@@ -4,18 +4,14 @@
 
 HookManager::HookManager() {
 	MH_Initialize();
-	this->addHook<PacketSendHook>();
-	this->addHook<CIUpdateHook>();
-}
-
-template <class T>
-bool HookManager::addHook() {
-	this->hooks.push_back(std::make_unique<T>());
-	return true;
+	this->addItems<
+		CIUpdateHook,
+		PacketSendHook
+	>();
 }
 
 bool HookManager::applyAll() {
-	for (auto& a : this->hooks) {
+	for (auto& a : this->items) {
 		a->patch();
 	}
 	printf("Patched");
@@ -24,7 +20,7 @@ bool HookManager::applyAll() {
 
 bool HookManager::unApplyAll() {
 	printf("UnPatched");
-	for (auto& a : this->hooks) {
+	for (auto& a : this->items) {
 		a->disablePatch();
 	}
 	return true;

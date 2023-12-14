@@ -7,7 +7,7 @@ void init() {
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* system = new System();
 	system->getHookManager().applyAll();
-	for (auto& i : system->getModuleManager().modules) {
+	for (auto& i : system->getModuleManager().items) {
 		printf(i->name.c_str());
 	}
 }
