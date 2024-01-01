@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
+#include "../Event/Listener.h"
 
-class Module {
+class Module : public Listener{
 public:
 	std::string name;
 	std::string desc;

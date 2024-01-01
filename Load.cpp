@@ -1,15 +1,14 @@
 ﻿#include <Windows.h>
 #include "Client/System.h"
-
+#include "Client/Event/Impl/TestEvent.h"
 void init() {
 	AllocConsole();
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* system = new System();
 	system->getHookManager().applyAll();
-	for (auto& i : system->getModuleManager().items) {
-		printf(i->name.c_str());
-	}
+	auto result = EventHandler<TestEvent>::trigger();
+	printf(result.val.c_str());
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
