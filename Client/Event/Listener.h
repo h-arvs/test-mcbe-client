@@ -4,7 +4,7 @@
 
 class Listener {
 public:
-	template <class Event, auto Callback> void listen(auto* self) {
-		EventHandler<Event>::callbacks.push_back([self](Event& e) {(self->*Callback)(e);});
-	};
+	template<class Event, auto callback, typename Self> void listen(this Self& self) {
+		EventHandler::dispatcher.sink<Event>().connect<callback>(&self);
+	}
 };

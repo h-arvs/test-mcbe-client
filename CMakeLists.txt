@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.18)
+﻿cmake_minimum_required(VERSION 3.20)
 project(Test)
 
 include(FetchContent)
@@ -6,6 +6,7 @@ include(FetchContent)
 add_library(client SHARED "Load.cpp")
 
 set_property(TARGET client PROPERTY CXX_STANDARD 23)
+set_property(TARGET client PROPERTY CXX_STANDARD_REQUIRED ON)
 
 # download(packagename github repo git tag)
 function(download NAME REPO TAG)

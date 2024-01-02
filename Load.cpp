@@ -7,8 +7,7 @@ void init() {
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* system = new System();
 	system->getHookManager().applyAll();
-	auto result = EventHandler<TestEvent>::trigger();
-	printf(result.val.c_str());
+	EventHandler::dispatcher.trigger<TestEvent>();
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
