@@ -2,5 +2,6 @@
 #include "Impl/TestModule.h"
 
 ModuleManager::ModuleManager() {
-	this->addModules<TestModule>();
+	auto testCatagory = this->addItem<Catagory>("Test Catagory");
+	testCatagory->addModules<TestModule>();
 }
