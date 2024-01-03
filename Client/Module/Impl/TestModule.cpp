@@ -16,5 +16,6 @@ void TestModule::onDisable() {
 }
 
 void TestModule::onTestEvent(TestEvent& e) {
-	printf(e.val.c_str());
+	printf("event");
+	e.setVal("val");
 }

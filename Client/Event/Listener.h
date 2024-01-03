@@ -5,10 +5,10 @@
 class Listener {
 public:
 	template<class Event, auto callback, typename Self> void listen(this Self& self) {
-		EventHandler::dispatcher.sink<Event>().connect<callback>(&self);
+		EventHandler<Event>::sink.connect<callback>(&self);
 	}
 
 	template<class Event, typename Self> void deafen(this Self& self) {
-		EventHandler::dispatcher.sink<Event>().disconnect(&self);
+		EventHandler<Event>::sink.disconnect(&self);
 	}
 };

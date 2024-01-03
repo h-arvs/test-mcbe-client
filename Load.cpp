@@ -11,8 +11,10 @@ void init() {
 	for (auto& mod : system->getModuleManager().items) {
 		mod->setState(true);
 	}
-	EventHandler::dispatcher.trigger<TestEvent>();
-	EventHandler::dispatcher.trigger<TestEvent>();
+
+	TestEvent t("a", "b");
+	EventHandler<TestEvent>::trigger(t);
+	printf(t.val.c_str());
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
