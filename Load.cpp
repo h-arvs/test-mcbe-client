@@ -1,12 +1,17 @@
 ﻿#include <Windows.h>
 #include "Client/System.h"
 #include "Client/Event/Impl/TestEvent.h"
+
 void init() {
 	AllocConsole();
 	FILE* f;
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* system = new System();
 	system->getHookManager().applyAll();
+	for (auto& mod : system->getModuleManager().items) {
+		mod->setState(true);
+	}
+	EventHandler::dispatcher.trigger<TestEvent>();
 	EventHandler::dispatcher.trigger<TestEvent>();
 }
 
