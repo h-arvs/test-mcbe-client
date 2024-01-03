@@ -1,6 +1,7 @@
 ﻿#include <Windows.h>
 #include "Client/System.h"
 #include "Client/Event/Impl/TestEvent.h"
+#include "Client/Module/Impl/TestModule.h"
 
 void init() {
 	AllocConsole();
@@ -8,13 +9,8 @@ void init() {
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* system = new System();
 	system->getHookManager().applyAll();
-	for (auto& mod : system->getModuleManager().items) {
-		mod->setState(true);
-	}
-
-	TestEvent t("a", "b");
-	EventHandler<TestEvent>::trigger(t);
-	printf(t.val.c_str());
+	auto* mod = system->getModuleManager().get<TestModule>();
+	printf("WE HEJERE");
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {
