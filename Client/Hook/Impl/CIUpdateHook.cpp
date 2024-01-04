@@ -1,8 +1,11 @@
 #include "CIUpdateHook.h"
+#include "../../Event/EventHandler.h"
+#include "../../Event/Impl/CIUpdateEvent.h"
 
 void(__fastcall* ClientInstanceUpdateO)(ClientInstance*);
 void __fastcall ClientInstanceUpdateCallback(ClientInstance* ci) {
-	System::tryGetSystem()->getGame().setClientInstance(ci);
+	ClientInstanceUpdateEvent e(ci);
+	EventHandler<ClientInstanceUpdateEvent>::trigger(e);
 	return ClientInstanceUpdateO(ci);
 }
 

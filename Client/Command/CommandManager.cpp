@@ -12,8 +12,10 @@ CommandManager::CommandManager(){
 
 std::unique_ptr<Command>& CommandManager::findCommand(std::string name) {
 	for (auto& instance : this->items) {
-		if (instance->getName() == name) {
-			return instance;
+		for (auto n : instance->names) {
+			if (n == name) {
+				return instance;
+			}
 		}
 	}
 }

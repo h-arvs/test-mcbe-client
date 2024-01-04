@@ -9,8 +9,6 @@ void init() {
 	freopen_s(&f, "CONOUT$", "w", stdout);
 	System* system = new System();
 	system->getHookManager().applyAll();
-	auto* mod = system->getModuleManager().get<TestModule>();
-	printf("WE HEJERE");
 }
 
 bool WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpRes) {

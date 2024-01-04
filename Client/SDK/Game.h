@@ -1,9 +1,13 @@
 #pragma once
 #include "ClientInstance.h"
+#include "../Event/Listener.h"
 
-class Game {
+class ClientInstanceUpdateEvent;
+
+class Game : public Listener{
 	ClientInstance* clientInstance = nullptr;
 public:
+	Game();
 	ClientInstance* getClientInstance();
-	void setClientInstance(ClientInstance*);
+	void onCIUpdate(ClientInstanceUpdateEvent&);
 };

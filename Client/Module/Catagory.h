@@ -6,7 +6,7 @@ class Catagory : Manager<Module> {
 	std::string name;
 	std::unordered_map<entt::id_type, Module*> modules;
 public:
-	Catagory(std::string name) : name(name) {};
+	Catagory(std::string name) : name(std::move(name)) {};
 	std::string getName() {
 		return this->name;
 	}

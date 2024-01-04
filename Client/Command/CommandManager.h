@@ -1,5 +1,5 @@
 #pragma once
-#include "Impl/Command.h"
+#include "Command.h"
 #include "../../Utils/Manager.h"
 
 class CommandManager : public Manager<Command> {

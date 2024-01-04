@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Command.h"
+#include "../Command.h"
 class HiCommand : public Command {
 public:
+	HiCommand();
 	void execute(std::vector<std::string> args) override;
-	std::string_view getName() override;
 };
