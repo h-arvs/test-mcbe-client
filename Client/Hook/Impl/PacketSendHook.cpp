@@ -1,16 +1,15 @@
 #include "PacketSendHook.h"
 #include "../../Command/CommandManager.h"
 #include "../../System.h"
+#include "../../Event/Impl/PacketSendEvent.h"
+#include "../../Event/EventHandler.h"
+
 void(__fastcall* PacketSendO)(void*, Packet*);
 void __fastcall PacketSend_Callback(void* _this, Packet* packet) {
-	auto a = packet->getId();
-	if (a == PacketID::TextPacket) {
-		auto b = reinterpret_cast<TextPacket*>(packet);
-		auto& cm = System::tryGetSystem()->getCommandManager();
-		if (b->text.starts_with(cm.commandPrefix)) {
-			cm.executeCommand(b->text);
-			return;
-		}
+	PacketSendEvent p(packet);
+	EventHandler<PacketSendEvent>::trigger(p);
+	if (p.isCancelled()) {
+		return;
 	}
 	return PacketSendO(_this, packet);
 }
