@@ -1,12 +1,15 @@
 #include "CommandManager.h"
 #include "Impl/PingCommand.h"
 #include "Impl/HiCommand.h"
+#include "Impl/ToggleCommand.h"
+
 #include "../System.h"
 
 CommandManager::CommandManager(){
 	this->addItems<
 		PingCommand,
-		HiCommand
+		HiCommand,
+		ToggleCommand
 	>();
 }
 

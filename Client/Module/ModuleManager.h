@@ -16,4 +16,12 @@ public:
 		}
 		return nullptr;
 	}
+
+	Module* get(std::string name) {
+		for (auto& c : this->items) {
+			auto mod = c->get(name);
+			if (mod != nullptr) return mod;
+		}
+		return nullptr;
+	}
 };

@@ -15,6 +15,12 @@ public:
 			this->enabled = state;
 		}
 	};
+
+	bool toggle() {
+		this->setState(!this->enabled);
+		return this->enabled;
+	}
+
 	virtual void onEnable() = 0;
 	virtual void onDisable() = 0;
 };

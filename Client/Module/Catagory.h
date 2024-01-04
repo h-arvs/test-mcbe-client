@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Utils/Manager.h"
-#include "Module.h"
+#include "Module.h"  
+#include <algorithm>
 
 class Catagory : Manager<Module> {
 	std::string name;
@@ -29,6 +30,24 @@ public:
 			auto modid = mod.first;
 			if (modid == id) {
 				return mod.second;
+			}
+		}
+		return nullptr;
+	}
+
+	bool ichar_equals(char a, char b)
+	{
+		
+	}
+
+	Module* get(std::string name) {
+		for (auto& mod : this->items) {
+			auto modname = mod->name;
+			auto n = name;
+			std::transform(modname.begin(), modname.end(), modname.begin(), ::tolower);
+			std::transform(n.begin(), n.end(), n.begin(), ::tolower);
+			if (n.compare(modname) == 0) {
+				return mod.get();
 			}
 		}
 		return nullptr;
