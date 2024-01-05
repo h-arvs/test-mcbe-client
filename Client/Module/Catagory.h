@@ -3,7 +3,7 @@
 #include "Module.h"  
 #include <algorithm>
 
-class Catagory : Manager<Module> {
+class Catagory : public Manager<Module> {
 	std::string name;
 	std::unordered_map<entt::id_type, Module*> modules;
 public:
@@ -33,11 +33,6 @@ public:
 			}
 		}
 		return nullptr;
-	}
-
-	bool ichar_equals(char a, char b)
-	{
-		
 	}
 
 	Module* get(std::string name) {
