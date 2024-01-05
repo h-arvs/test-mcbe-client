@@ -137,10 +137,11 @@ HRESULT presentH(IDXGISwapChain3* swapchain, UINT syncinterval, UINT flags) {
 
 		d3d12DescriptorHeapBackBuffers->Release();
 		d3d12CommandList->Release();
-		allocator->Release();
 
 		currentFrameContext.main_render_target_resource->Release();
 		currentFrameContext.commandAllocator->Release();
+
+		allocator->Release();
 
 		device->Release();
 

@@ -15,11 +15,18 @@ void ClickGui::onDisable() {
 }
 
 void ClickGui::onRender(RenderEvent&) {
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 800.f,600.f });
+	ImGui::Begin("Click Gui", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
+	ImGui::PopStyleVar();
+	int id = 1;
 	for (auto& catagory : System::tryGetSystem()->getModuleManager().items) {
-		ImGui::Begin(catagory->getName().c_str());
+		ImGui::Button(catagory->getName().c_str());
+		ImGui::BeginChild(id);
 		for (auto& mod : catagory->items) {
 			ImGui::Button(mod->name.c_str());
 		}
-		ImGui::End();
+		ImGui::EndChild();
+		id += 1;
 	}
+	ImGui::End();
 }
