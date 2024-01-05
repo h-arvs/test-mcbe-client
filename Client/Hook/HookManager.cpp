@@ -1,10 +1,12 @@
 #include "HookManager.h"
 #include "Impl/PacketSendHook.h"
 #include "Impl/CIUpdateHook.h"
+#include "Impl/DXHook.h"
 
 HookManager::HookManager() {
 	MH_Initialize();
 	this->addItems<
+		DirectXHook,
 		CIUpdateHook,
 		PacketSendHook
 	>();

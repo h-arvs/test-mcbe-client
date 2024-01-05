@@ -28,6 +28,7 @@ add_compile_definitions(ENTT_PACKED_PAGE=128)
 # LIBHAT LI BAT LIBHAT LIBAHAT MOREE LIBJHAT
 add_subdirectory(Client)
 add_subdirectory(Utils)
+add_subdirectory(Include)
 
 target_link_libraries(client PRIVATE minhook libhat EnTT)
 

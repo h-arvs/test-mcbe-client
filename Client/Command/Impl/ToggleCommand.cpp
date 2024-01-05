@@ -16,7 +16,7 @@ void ToggleCommand::execute(std::vector<std::string> args) {
 	auto mod = System::tryGetSystem()->getModuleManager().get(fullName);
 	if (mod != nullptr) {
 		auto state = mod->toggle();
-		return this->reply(state ? "Toggled " + args[0] + " on" : "Toggled " + args[0] + " off");
+		return this->reply(state ? "Toggled " + mod->name + " on" : "Toggled " + mod->name + " off");
 	}
 	return this->reply("Module '" + fullName + "' not found");
 }
