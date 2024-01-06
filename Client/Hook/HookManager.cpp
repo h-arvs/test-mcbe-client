@@ -2,13 +2,16 @@
 #include "Impl/PacketSendHook.h"
 #include "Impl/CIUpdateHook.h"
 #include "Impl/DXHook.h"
+#include "Impl/InputHooks.h"
 
 HookManager::HookManager() {
 	MH_Initialize();
 	this->addItems<
 		DirectXHook,
 		CIUpdateHook,
-		PacketSendHook
+		PacketSendHook,
+		KeyBoardInputHook,
+		MouseInputHook
 	>();
 }
 

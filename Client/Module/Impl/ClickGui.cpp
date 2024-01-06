@@ -4,6 +4,7 @@
 #include "../../System.h"
 
 ClickGui::ClickGui() : Module("ClickGui", "Clickable gui to interact with modules") {
+	this->bind(45);
 }
 
 void ClickGui::onEnable() {
@@ -15,9 +16,8 @@ void ClickGui::onDisable() {
 }
 
 void ClickGui::onRender(RenderEvent&) {
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 800.f,600.f });
+	ImGui::SetNextWindowSize(ImVec2(700, 500));
 	ImGui::Begin("Click Gui", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
-	ImGui::PopStyleVar();
 	int id = 1;
 	for (auto& catagory : System::tryGetSystem()->getModuleManager().items) {
 		ImGui::Button(catagory->getName().c_str());
