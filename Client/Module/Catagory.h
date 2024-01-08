@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Utils/Manager.h"
+#include "../../Utils/String.h"
 #include "Module.h"  
-#include <algorithm>
 
 class Catagory : public Manager<Module> {
 	std::string name;
@@ -39,9 +39,7 @@ public:
 		for (auto& mod : this->items) {
 			auto modname = mod->name;
 			auto n = name;
-			std::transform(modname.begin(), modname.end(), modname.begin(), ::tolower);
-			std::transform(n.begin(), n.end(), n.begin(), ::tolower);
-			if (n.compare(modname) == 0) {
+			if (stringutil::lower(n).compare(stringutil::lower(modname)) == 0) {
 				return mod.get();
 			}
 		}
