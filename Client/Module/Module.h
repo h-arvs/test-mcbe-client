@@ -29,7 +29,7 @@ public:
 	}
 
 	void unbind() {
-		this->hotkey = NULL;
+		this->hotkey = 0;
 		this->deafen<KeyInputEvent>();
 	}
 

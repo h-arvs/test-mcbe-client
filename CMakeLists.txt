@@ -21,6 +21,7 @@ endfunction()
 download(libhat https://github.com/BasedInc/libhat.git 224fd84f37bb5ebcfb65d45db9af438ee68bac59)
 download(minhook https://github.com/TsudaKageyu/minhook.git f5485b8454544c2f034c78f8f127c1d03dea3636)
 download(entt https://github.com/skypjack/entt.git f2c417435c021b6bd2e426ffd9d1fc116b804146)
+download(magic_enum https://github.com/Neargye/magic_enum 414fb654d36620f7b899f782f2743e43122325f6)
 
 add_compile_definitions(ENTT_SPARSE_PAGE=2048)
 add_compile_definitions(ENTT_PACKED_PAGE=128)
@@ -30,7 +31,7 @@ add_subdirectory(Client)
 add_subdirectory(Utils)
 add_subdirectory(Include)
 
-target_link_libraries(client PRIVATE minhook libhat EnTT)
+target_link_libraries(client PRIVATE minhook libhat EnTT magic_enum)
 
 set_property(
     # any target that is compiled (has source files) likely needs to be here

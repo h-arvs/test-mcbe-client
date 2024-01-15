@@ -1,1 +1,1 @@
-target_sources(client PRIVATE "HiCommand.cpp" "PingCommand.cpp" "ToggleCommand.cpp")
+target_sources(client PRIVATE "HiCommand.cpp" "PingCommand.cpp" "ToggleCommand.cpp" "BindCommand.cpp")

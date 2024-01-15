@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Utils/Manager.h"
 #include "../../Utils/String.h"
-#include "Module.h"  
+#include "Module.h"
 
 class Catagory : public Manager<Module> {
 	std::string name;
@@ -44,5 +44,9 @@ public:
 			}
 		}
 		return nullptr;
+	}
+
+	Module* getA(std::string n) {
+		return this->get(stringutil::replace(n, "_", " "));
 	}
 };

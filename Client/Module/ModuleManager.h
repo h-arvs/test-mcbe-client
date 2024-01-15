@@ -24,4 +24,8 @@ public:
 		}
 		return nullptr;
 	}
+
+	Module* getA(std::string name) {
+		return this->get(stringutil::replace(name, "_", ""));
+	}
 };

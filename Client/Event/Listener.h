@@ -11,4 +11,8 @@ public:
 	template<class Event, typename Self> void deafen(this Self& self) {
 		EventHandler<Event>::sink.disconnect(&self);
 	}
+
+	template<class Event, auto callback, typename Self> void deafenSingle(this Self& self) {
+		EventHandler<Event>::sink.disconnect<callback>(&self);
+	}
 };

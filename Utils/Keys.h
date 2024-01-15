@@ -1,6 +1,6 @@
 #pragma once
 
-enum key {
+enum Key {
     None = 0,
     LeftButton = 1,
     RightButton = 2,
