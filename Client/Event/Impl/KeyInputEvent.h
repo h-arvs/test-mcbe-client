@@ -1,11 +1,12 @@
 #pragma once
+#include "Cancellable.h"
 
 enum class Action {
 	RELEASED,
 	PRESSED
 };
 
-class KeyInputEvent {
+class KeyInputEvent : public Cancellable{
 	int key;
 	Action action;
 public:

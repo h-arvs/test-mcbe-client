@@ -1,22 +1,14 @@
 #pragma once
 #include "../../SDK/Packet.h"
+#include "Cancellable.h"
 
-class PacketSendEvent {
+class PacketSendEvent : public Cancellable {
 	Packet* packet;
-	bool cancelled = false;
 public:
 
 	PacketSendEvent(Packet* p) : packet(p) {};
 
 	Packet* getPacket() {
 		return this->packet;
-	}
-
-	bool isCancelled() {
-		return this->cancelled;
-	}
-
-	void cancel() {
-		this->cancelled = true;
 	}
 };

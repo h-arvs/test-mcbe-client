@@ -7,7 +7,7 @@ class Module : public Listener{
 public:
 	std::string name;
 	std::string desc;
-	int hotkey = NULL;
+	int hotkey = 0;
 	bool enabled = false;
 	Module(std::string name, std::string desc) : name(std::move(name)), desc(std::move(desc)) {};
 	void setState(bool state) {
@@ -25,15 +25,15 @@ public:
 
 	void bind(int key) {
 		this->hotkey = key;
-		this->listen<KeyInputEvent, &Module::onKey>();
+		this->listen<KeyInputEvent, &Module::onHotKey>();
 	}
 
 	void unbind() {
 		this->hotkey = 0;
-		this->deafen<KeyInputEvent>();
+		this->deafenSingle<KeyInputEvent, &Module::onHotKey>();
 	}
 
-	void onKey(KeyInputEvent& e) {
+	void onHotKey(KeyInputEvent& e) {
 		if (e.getKey() == this->hotkey && e.getAction() == Action::PRESSED) this->toggle();
 	}
 

@@ -4,7 +4,7 @@
 #include "Module/ModuleManager.h"
 #include "SDK/Game.h"
 
-class System {
+class System : public Listener{
 	static System* currentInstance;
 	std::unique_ptr<HookManager> hookManager = nullptr;
 	std::unique_ptr<CommandManager> commandManager = nullptr;
