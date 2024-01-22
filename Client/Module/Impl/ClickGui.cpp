@@ -35,15 +35,27 @@ void ClickGui::onMouse(MouseInputEvent& e) {
 void ClickGui::onRender(RenderEvent&) {
 	ImGui::SetNextWindowSize(ImVec2(700, 500));
 	ImGui::Begin("Click Gui", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
-	int id = 1;
 	for (auto& catagory : System::tryGetSystem()->getModuleManager().items) {
-		ImGui::Button(catagory->getName().c_str());
-		ImGui::BeginChild(id);
+		ImGui::Text(catagory->getName().c_str());
+		ImGui::NewLine();
 		for (auto& mod : catagory->items) {
-			ImGui::Button(mod->name.c_str());
+			ImGui::SameLine();
+			if(mod->enabled)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.5f, 1.0f, 0.5f, 1.0f));
+			}
+			else 
+			{
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));	
+			}
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));
+			if (ImGui::Button(mod->name.c_str())) {
+				mod->toggle();
+			};
+			ImGui::PopStyleColor(3);
 		}
-		ImGui::EndChild();
-		id += 1;
 	}
 	ImGui::End();
 }

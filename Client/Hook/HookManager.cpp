@@ -3,6 +3,7 @@
 #include "Impl/CIUpdateHook.h"
 #include "Impl/DXHook.h"
 #include "Impl/InputHooks.h"
+#include "Impl/AddShapesHook.h"
 
 HookManager::HookManager() {
 	MH_Initialize();
@@ -11,7 +12,8 @@ HookManager::HookManager() {
 		CIUpdateHook,
 		PacketSendHook,
 		KeyBoardInputHook,
-		MouseInputHook
+		MouseInputHook,
+		AddShapesHook
 	>();
 }
 

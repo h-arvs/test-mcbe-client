@@ -1,1 +1,1 @@
-target_sources(client PRIVATE "Game.cpp")
+target_sources(client PRIVATE "Game.cpp" "Math.h")
