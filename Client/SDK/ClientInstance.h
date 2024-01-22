@@ -1,6 +1,7 @@
 #pragma once
 #include "macros.h"
 #include "GuiData.h"
+#include "LocalPlayer.h"
 
 class ClientInstance {
 public:
@@ -8,11 +9,15 @@ public:
 
 	void dropCursor() const
 	{
-		return vftCall<326, void, const ClientInstance*>(this);
+		return vftCall<326, void>(this);
 	}
 
 	void acquireCursor() const
 	{
-		return vftCall<327, void, const ClientInstance*>(this);
+		return vftCall<327, void>(this);
+	}
+
+	LocalPlayer* getClientPlayer() {
+		return vftCall<28, LocalPlayer*>(this);
 	}
 };
