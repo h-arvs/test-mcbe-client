@@ -15,7 +15,7 @@ void Jesus::onDisable() {
 
 void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 	if (e.getBlock()->tileName == "tile.water") {
-		auto a = e.getBlockPos();
-		e.addShape(AABB(a.x, a.y, a.z, a.x + 1, a.y + 1, a.z + 1));
+		auto a = Vec3<float>(e.getBlockPos());
+		e.addShape(AABB(a, a + Vec3<float>(1, 1, 1)));
 	}
 }

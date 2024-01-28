@@ -8,6 +8,10 @@ struct Vec3 {
 	T z = 0;
 	Vec3() = default;
 	Vec3(T x, T y, T z) : x(x), y(y), z(z){}
+	template <typename U> Vec3(const Vec3<U>& other) : x(static_cast<T>(other.x)), y(static_cast<T>(other.y)), z(static_cast<T>(other.z)) {}
+	Vec3<T> operator+(Vec3<T> other) {
+		return Vec3<T>(x + other.x, y + other.y, z + other.z);
+	}
 };
 
 struct BlockPos : public Vec3<int> {};
