@@ -1,8 +1,10 @@
 #pragma once
 
 #include "macros.h"
+#include "Actor.h"
 
-class LocalPlayer {
+class Mob : public Actor{};
+class LocalPlayer : public Mob{
 public:
 
 };

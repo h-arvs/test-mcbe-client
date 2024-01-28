@@ -1,5 +1,5 @@
 #include "TestModule.h"
-#include "../../Event/Impl/TestEvent.h"
+#include "../../Event/Impl/CIUpdateEvent.h"
 
 TestModule::TestModule() : Module("Test Module", "Module for testing") {
 	
@@ -7,15 +7,19 @@ TestModule::TestModule() : Module("Test Module", "Module for testing") {
 
 void TestModule::onEnable() {
 	printf("Enabled");
-	this->listen<TestEvent, &TestModule::onTestEvent>();
+	this->listen<ClientInstanceUpdateEvent, &TestModule::onUpdate>();
 }
 
 void TestModule::onDisable() {
 	printf("Disabled");
-	this->deafen<TestEvent>();
+	this->deafen<ClientInstanceUpdateEvent>();
 }
 
-void TestModule::onTestEvent(TestEvent& e) {
-	printf("event");
-	e.setVal("val");
+void TestModule::onUpdate(ClientInstanceUpdateEvent& e) {
+	auto ci = e.getClientInstance();
+	auto lp = ci->getClientPlayer();
+	auto d = lp->getdimension();
+	auto bs = d->getblockSource();
+	auto cs = d->getchunkSource();
+	printf("", bs, cs);
 }

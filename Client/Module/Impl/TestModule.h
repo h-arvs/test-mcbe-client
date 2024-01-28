@@ -1,11 +1,11 @@
 #pragma once
 #include "../Module.h"
 
-class TestEvent;
+class ClientInstanceUpdateEvent;
 class TestModule : public Module {
 public:
 	TestModule();
 	void onEnable() override;
 	void onDisable() override;
-	void onTestEvent(TestEvent&);
+	void onUpdate(ClientInstanceUpdateEvent& e);
 };
