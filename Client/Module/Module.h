@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "../Event/Listener.h"
-#include "../Event/Impl/KeyInputEvent.h"
+#include "../Event/Impl/BindEvent.h"
 
 class Module : public Listener{
 public:
@@ -25,15 +25,15 @@ public:
 
 	void bind(int key) {
 		this->hotkey = key;
-		this->listen<KeyInputEvent, &Module::onHotKey>();
+		this->listen<BindEvent, &Module::onHotKey>();
 	}
 
 	void unbind() {
 		this->hotkey = 0;
-		this->deafenSingle<KeyInputEvent, &Module::onHotKey>();
+		this->deafen<BindEvent>();
 	}
 
-	void onHotKey(KeyInputEvent& e) {
+	void onHotKey(BindEvent& e) {
 		if (e.getKey() == this->hotkey && e.getAction() == Action::PRESSED) this->toggle();
 	}
 

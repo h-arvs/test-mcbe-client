@@ -1,6 +1,7 @@
 #include "InputHooks.h"
 #include "../../Event/Impl/KeyInputEvent.h"
 #include "../../Event/Impl/MouseInputEvent.h"
+#include "../../Event/Impl/BindEvent.h"
 #include "../../Event/EventHandler.h"
 #include <imgui.h>
 
@@ -32,10 +33,13 @@ void MouseInputHook::patch() {
 void(__fastcall* keyHookO)(int, int);
 void __fastcall keyHooKCallback(int key, int action) {
 	KeyInputEvent e(key, action);
+	BindEvent b(e);
 	EventHandler<KeyInputEvent>::trigger(e);
+	EventHandler<BindEvent>::trigger(b); // idk about this but i dont wanna f with deafenSingle
 	if (e.isCancelled()) return;
 	return keyHookO(key, action);
 }
+
 void KeyBoardInputHook::patch() {
 	this->autoPatch("48 83 ?? ?? 0F B6 ?? 4C 8D ?? ?? ?? ?? ?? ?? 54",
 		&keyHooKCallback,

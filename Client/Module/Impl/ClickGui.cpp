@@ -13,12 +13,13 @@ void ClickGui::onEnable() {
 	this->listen<RenderEvent, &ClickGui::onRender>();
 	this->listen<KeyInputEvent, &ClickGui::onKey>();
 	this->listen<MouseInputEvent, &ClickGui::onMouse>();
+
 	System::tryGetSystem()->getGame().getClientInstance()->acquireCursor();
 }
 
 void ClickGui::onDisable() {
 	this->deafen<RenderEvent>();
-	this->deafenSingle<KeyInputEvent, &ClickGui::onKey>();
+	this->deafen<KeyInputEvent>();
 	this->deafen<MouseInputEvent>();
 
 	System::tryGetSystem()->getGame().getClientInstance()->dropCursor();
