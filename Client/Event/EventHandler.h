@@ -1,6 +1,5 @@
 #pragma once
-#include <vector>
-#include <functional>
+
 #include <entt/entt.hpp>
 
 template <class T>
