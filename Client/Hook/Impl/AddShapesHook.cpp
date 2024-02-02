@@ -1,16 +1,16 @@
 #include "AddShapesHook.h"
 #include "../../SDK/BlockLegacy.h"
+#include "../../SDK/BlockSource.h"
 #include "../../SDK/Math.h"
 #include "../../Event/EventHandler.h"
 #include "../../Event/Impl/AddShapesEvent.h"
 
 class Block;
-class BlockSource;
 
 bool(_fastcall* AddShapesO)(BlockLegacy* self, Block& block, BlockSource& blocksource, BlockPos& blockpos, AABB* aabb, std::vector<AABB>& aabbs, void* arg7);
 bool(__fastcall AddShapesCallback)(BlockLegacy* self, Block& block, BlockSource& blocksource, BlockPos& blockpos, AABB* aabb, std::vector<AABB>& aabbs, void* arg7) {
 	auto result = AddShapesO(self, block, blocksource, blockpos, aabb, aabbs, arg7);
-	auto e = AddShapesEvent(aabbs, self, aabb, blockpos);
+	auto e = AddShapesEvent(aabbs, self, blocksource.getChunkSource(), blockpos, &block);
 	EventHandler<AddShapesEvent>::trigger(e);
 	aabbs = e.getShapes();
 	return result;

@@ -34,6 +34,9 @@ void ClickGui::onMouse(MouseInputEvent& e) {
 }
 
 void ClickGui::onRender(RenderEvent&) {
+	auto window = ImGui::GetBackgroundDrawList();
+	auto size = ImGui::GetIO().DisplaySize;
+	window->AddRectFilled(ImVec2(0, 0), size, IM_COL32(0, 0, 0, 128));
 	ImGui::SetNextWindowSize(ImVec2(700, 500));
 	ImGui::Begin("Click Gui", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 	for (auto& catagory : System::tryGetSystem()->getModuleManager().items) {

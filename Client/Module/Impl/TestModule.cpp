@@ -16,10 +16,5 @@ void TestModule::onDisable() {
 }
 
 void TestModule::onUpdate(ClientInstanceUpdateEvent& e) {
-	auto ci = e.getClientInstance();
-	auto lp = ci->getClientPlayer();
-	auto d = lp->getdimension();
-	auto bs = d->getblockSource();
-	auto cs = d->getchunkSource();
-	printf("", bs, cs);
+	
 }

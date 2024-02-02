@@ -2,6 +2,7 @@
 #include "ClientInstance.h"
 #include "../Event/Listener.h"
 
+
 class ClientInstanceUpdateEvent;
 
 class Game : public Listener{

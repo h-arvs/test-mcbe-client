@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../SDK/EntityId.h"
 #include <entt/entt.hpp>
 
 template <class T>

@@ -2,18 +2,22 @@
 #include <vector>
 #include "../../SDK/Math.h"
 #include "../../SDK/BlockLegacy.h"
+#include "../../SDK/Block.h"
+#include "../../SDK/ChunkSource.h"
 
 class AddShapesEvent {
 	std::vector<AABB> shapes;
-	BlockLegacy* block;
-	AABB* entityAABB;
+	BlockLegacy* blockLegacy;
+	Block* block;
+	ChunkSource* chunkSource;
 	BlockPos pos;
 public:
-	AddShapesEvent(std::vector<AABB> aabbs, BlockLegacy* block, AABB* entity, BlockPos pos) {
+	AddShapesEvent(std::vector<AABB> aabbs, BlockLegacy* blockLegacy, ChunkSource* chunkSource, BlockPos pos, Block* block) {
 		this->shapes = aabbs;
-		this->block = block;
-		this->entityAABB = entity;
+		this->blockLegacy = blockLegacy;
 		this->pos = pos;
+		this->chunkSource = chunkSource;
+		this->block = block;
 	}
 
 	std::vector<AABB> getShapes() {
@@ -24,15 +28,19 @@ public:
 		this->shapes.push_back(aabb);
 	}
 
-	BlockLegacy* getBlock() {
-		return this->block;
+	BlockLegacy* getBlockLegacy() {
+		return this->blockLegacy;
 	}
 
-	AABB* getEntityAABB() {
-		return this->entityAABB;
+	Block* getBlock() {
+		return this->block;
 	}
 
 	BlockPos getBlockPos() {
 		return this->pos;
+	}
+
+	ChunkSource* getChunkSource() {
+		return this->chunkSource;
 	}
 };

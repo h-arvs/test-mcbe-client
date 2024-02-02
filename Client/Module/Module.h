@@ -4,12 +4,16 @@
 #include "../Event/Impl/BindEvent.h"
 
 class Module : public Listener{
+	void onHotKey(BindEvent& e) {
+		if (e.getKey() == this->hotkey && e.getAction() == Action::PRESSED) this->toggle();
+	}
 public:
 	std::string name;
 	std::string desc;
 	int hotkey = 0;
 	bool enabled = false;
 	Module(std::string name, std::string desc) : name(std::move(name)), desc(std::move(desc)) {};
+
 	void setState(bool state) {
 		if (this->enabled != state) {
 			if (state == true) this->onEnable();
@@ -31,10 +35,6 @@ public:
 	void unbind() {
 		this->hotkey = 0;
 		this->deafen<BindEvent>();
-	}
-
-	void onHotKey(BindEvent& e) {
-		if (e.getKey() == this->hotkey && e.getAction() == Action::PRESSED) this->toggle();
 	}
 
 	virtual void onEnable() = 0;

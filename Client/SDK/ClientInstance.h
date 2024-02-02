@@ -5,7 +5,9 @@
 
 class ClientInstance {
 public:
-	DIRECT_ACCESS(GuiData*, GuiData, 0x560);
+	GuiData* getGuiData() {
+		return hat::member_at<GuiData*>(this, 0x560);
+	}
 
 	void dropCursor() const
 	{

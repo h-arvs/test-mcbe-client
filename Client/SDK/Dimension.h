@@ -4,6 +4,11 @@
 
 class Dimension {
 public:
-	DIRECT_ACCESS(BlockSource*, blockSource, 0xD0);
-	DIRECT_ACCESS(ChunkSource*, chunkSource, 0x198);
+	BlockSource* getBlockSource() {
+		return hat::member_at<BlockSource*>(this, 0xD0);
+	}
+
+	ChunkSource* getChunkSource() {
+		return hat::member_at<ChunkSource*>(this, 0x198);
+	}
 };
