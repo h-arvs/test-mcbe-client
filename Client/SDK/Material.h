@@ -6,6 +6,6 @@ public:
 	MaterialType mMaterialType;
 	
 	bool isType(MaterialType type) {
-		return type == MaterialType::Any || type = this->mMaterialType;
+		return (type == MaterialType::Any) || (type == this->mMaterialType);
 	}
 };

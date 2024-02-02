@@ -1,6 +1,6 @@
 #pragma once
 
-enum class MaterialType : uint {
+enum class MaterialType {
     Air                      = 0x0,
     Dirt                     = 0x1,
     Wood                     = 0x2,
