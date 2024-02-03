@@ -50,7 +50,7 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 	
 	auto first = ec.tryGetComponent<AABBShapeComponent>()->aabb.first;
 	auto second = ec.tryGetComponent<AABBShapeComponent>()->aabb.second;
-	auto under =  Vec3<float>(std::midpoint(first.x, second.x), floor(first.x - 0.1), std::midpoint(first.z, second.z));
+	auto under =  Vec3<float>(std::midpoint(first.x, second.x), floor(first.y - 0.1), std::midpoint(first.z, second.z));
 	auto bp = static_cast<BlockPos>(under);
 	auto bs = p->getDimension()->getBlockSource();
 	auto b = bs->getBlock(bp);
