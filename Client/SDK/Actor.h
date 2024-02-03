@@ -2,7 +2,7 @@
 
 #include "macros.h"
 #include "Dimension.h"
-#include "Entitycontext.h"
+#include "EntityContext.h"
 #include <libhat/Access.hpp>
 #include "Component/StateVectorComponent.h"
 #include "SynchedActorDataEntityWrapper.h"

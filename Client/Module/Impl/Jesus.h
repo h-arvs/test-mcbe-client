@@ -2,6 +2,7 @@
 #include "../Module.h"
 #include "../../Event/Impl/KeyInputEvent.h"
 
+class DoInWaterSensingEvent;
 class AddShapesEvent;
 class Jesus : public Module {
 	Action shift = Action::RELEASED;
@@ -11,4 +12,5 @@ public:
 	void onDisable() override;
 	void onAddShapesEvent(AddShapesEvent&);
 	void onKey(KeyInputEvent&);
+	void onInWaterCheck(DoInWaterSensingEvent&);
 };

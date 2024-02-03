@@ -13,8 +13,3 @@ RetT vftCall(const void* selfPtr, ArgsT... args)
 
 	return ((RetT(__thiscall*)(const void*, ArgsT...))vftfunc)(selfPtr, args...);
 }
-
-#define DIRECT_ACCESS(type, name, offset) \
-type& get##name##() const { \
-	return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \
-}\

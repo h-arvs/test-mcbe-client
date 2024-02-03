@@ -1,6 +1,6 @@
 #pragma once
 
-enum class MaterialType {
+enum class MaterialType : unsigned int{
     Air                      = 0x0,
     Dirt                     = 0x1,
     Wood                     = 0x2,

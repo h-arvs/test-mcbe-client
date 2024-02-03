@@ -12,6 +12,10 @@ struct Vec3 {
 	Vec3<T> operator+(Vec3<T> other) {
 		return Vec3<T>(x + other.x, y + other.y, z + other.z);
 	}
+
+	Vec3<T> operator-(Vec3<T> other) {
+		return Vec3<T>(x - other.x, y - other.y, z - other.z);
+	}
 };
 
 struct BlockPos : public Vec3<int> {};

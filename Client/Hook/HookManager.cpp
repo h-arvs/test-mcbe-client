@@ -4,6 +4,7 @@
 #include "Impl/DXHook.h"
 #include "Impl/InputHooks.h"
 #include "Impl/AddShapesHook.h"
+#include "Impl/InWaterSensingSystemHook.h"
 
 HookManager::HookManager() {
 	MH_Initialize();
@@ -13,7 +14,8 @@ HookManager::HookManager() {
 		PacketSendHook,
 		KeyBoardInputHook,
 		MouseInputHook,
-		AddShapesHook
+		AddShapesHook,
+		InWaterSensingSystemHook
 	>();
 }
 
