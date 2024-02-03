@@ -5,139 +5,174 @@
 #include <imgui.h>
 #include <imgui_impl_dx12.h>
 #include <imgui_impl_win32.h>
+#include <atlbase.h>
 #include "../../Event/Impl/RenderEvent.h"
 #include "../../Event/EventHandler.h"
 
 bool ImGui_Initialised = false;
 
-namespace DirectX12Interface {
-	ID3D12Device* Device = nullptr;
-	ID3D12DescriptorHeap* DescriptorHeapBackBuffers;
-	ID3D12DescriptorHeap* DescriptorHeapImGuiRender;
-	ID3D12GraphicsCommandList* CommandList;
-	ID3D12CommandQueue* CommandQueue;
+struct FrameContext {
+	CComPtr<ID3D12CommandAllocator> command_allocator = NULL;
+	CComPtr<ID3D12Resource> main_render_target_resource = NULL;
+	D3D12_CPU_DESCRIPTOR_HANDLE main_render_target_descriptor;
+};
 
-	struct _FrameContext {
-		ID3D12CommandAllocator* CommandAllocator;
-		ID3D12Resource* Resource;
-		D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHandle;
-	};
+// Data
+static std::vector<FrameContext> g_FrameContext;
+static UINT						g_FrameBufferCount = 0;
 
-	uint64_t BuffersCounts = -1;
-	_FrameContext* FrameContext;
-}
+static CComPtr<ID3D12DescriptorHeap> g_pD3DRtvDescHeap = NULL;
+static CComPtr<ID3D12DescriptorHeap> g_pD3DSrvDescHeap = NULL;
+static CComPtr<ID3D12CommandQueue> g_pD3DCommandQueue = NULL;
+static CComPtr<ID3D12GraphicsCommandList> g_pD3DCommandList = NULL;
 
 typedef HRESULT(__thiscall* present_o)(IDXGISwapChain3*, UINT, UINT);
 present_o presentO;
 
 HRESULT presentH(IDXGISwapChain3* pSwapChain, UINT SyncInterval, UINT Flags) {
 	auto window = FindWindowA(nullptr, "Minecraft");
+	if (g_pD3DCommandQueue == nullptr) {
+		return presentO(pSwapChain, SyncInterval, Flags);
+	}
 	if (!ImGui_Initialised) {
-		if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D12Device), (void**)&DirectX12Interface::Device))) {
-			ImGui::CreateContext();
+		ID3D12Device* pD3DDevice;
 
-			ImGuiIO& io = ImGui::GetIO(); (void)io;
-			ImGui::GetIO().WantCaptureMouse || ImGui::GetIO().WantTextInput || ImGui::GetIO().WantCaptureKeyboard;
-			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-
-			DXGI_SWAP_CHAIN_DESC Desc;
-			pSwapChain->GetDesc(&Desc);
-			Desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-			Desc.OutputWindow = window;
-			Desc.Windowed = ((GetWindowLongPtr(window, GWL_STYLE) & WS_POPUP) != 0) ? false : true;
-
-			DirectX12Interface::BuffersCounts = Desc.BufferCount;
-			DirectX12Interface::FrameContext = new DirectX12Interface::_FrameContext[DirectX12Interface::BuffersCounts];
-
-			D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender = {};
-			DescriptorImGuiRender.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-			DescriptorImGuiRender.NumDescriptors = DirectX12Interface::BuffersCounts;
-			DescriptorImGuiRender.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-
-			if (DirectX12Interface::Device->CreateDescriptorHeap(&DescriptorImGuiRender, IID_PPV_ARGS(&DirectX12Interface::DescriptorHeapImGuiRender)) != S_OK)
-				return presentO(pSwapChain, SyncInterval, Flags);
-
-			ID3D12CommandAllocator* Allocator;
-			if (DirectX12Interface::Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&Allocator)) != S_OK)
-				return presentO(pSwapChain, SyncInterval, Flags);
-
-			for (size_t i = 0; i < DirectX12Interface::BuffersCounts; i++) {
-				DirectX12Interface::FrameContext[i].CommandAllocator = Allocator;
-			}
-
-			if (DirectX12Interface::Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, Allocator, NULL, IID_PPV_ARGS(&DirectX12Interface::CommandList)) != S_OK ||
-				DirectX12Interface::CommandList->Close() != S_OK)
-				return presentO(pSwapChain, SyncInterval, Flags);
-
-			D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers;
-			DescriptorBackBuffers.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-			DescriptorBackBuffers.NumDescriptors = DirectX12Interface::BuffersCounts;
-			DescriptorBackBuffers.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-			DescriptorBackBuffers.NodeMask = 1;
-
-			if (DirectX12Interface::Device->CreateDescriptorHeap(&DescriptorBackBuffers, IID_PPV_ARGS(&DirectX12Interface::DescriptorHeapBackBuffers)) != S_OK)
-				return presentO(pSwapChain, SyncInterval, Flags);
-
-			const auto RTVDescriptorSize = DirectX12Interface::Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-			D3D12_CPU_DESCRIPTOR_HANDLE RTVHandle = DirectX12Interface::DescriptorHeapBackBuffers->GetCPUDescriptorHandleForHeapStart();
-
-			for (size_t i = 0; i < DirectX12Interface::BuffersCounts; i++) {
-				ID3D12Resource* pBackBuffer = nullptr;
-				DirectX12Interface::FrameContext[i].DescriptorHandle = RTVHandle;
-				pSwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
-				DirectX12Interface::Device->CreateRenderTargetView(pBackBuffer, nullptr, RTVHandle);
-				DirectX12Interface::FrameContext[i].Resource = pBackBuffer;
-				RTVHandle.ptr += RTVDescriptorSize;
-			}
-
-			ImGui_ImplWin32_Init(window);
-			ImGui_ImplDX12_Init(DirectX12Interface::Device, DirectX12Interface::BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM, DirectX12Interface::DescriptorHeapImGuiRender, DirectX12Interface::DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(), DirectX12Interface::DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
+		if (FAILED(pSwapChain->GetDevice(__uuidof(ID3D12Device), (void**)&pD3DDevice))) {
+			return presentO(pSwapChain, SyncInterval, Flags);
 		}
+
+		{
+			DXGI_SWAP_CHAIN_DESC desc;
+			pSwapChain->GetDesc(&desc);
+			g_FrameBufferCount = desc.BufferCount;
+			g_FrameContext.clear();
+			g_FrameContext.resize(g_FrameBufferCount);
+		}
+
+		{
+			D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+			desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+			desc.NumDescriptors = g_FrameBufferCount;
+			desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+
+			if (pD3DDevice->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&g_pD3DSrvDescHeap)) != S_OK) {
+				return presentO(pSwapChain, SyncInterval, Flags);
+			}
+		}
+
+		{
+			D3D12_DESCRIPTOR_HEAP_DESC desc;
+			desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+			desc.NumDescriptors = g_FrameBufferCount;
+			desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+			desc.NodeMask = 1;
+
+			if (pD3DDevice->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&g_pD3DRtvDescHeap)) != S_OK) {
+				return presentO(pSwapChain, SyncInterval, Flags);
+			}
+
+			const auto rtvDescriptorSize = pD3DDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+			D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = g_pD3DRtvDescHeap->GetCPUDescriptorHandleForHeapStart();
+
+			for (UINT i = 0; i < g_FrameBufferCount; i++) {
+
+				g_FrameContext[i].main_render_target_descriptor = rtvHandle;
+				pSwapChain->GetBuffer(i, IID_PPV_ARGS(&g_FrameContext[i].main_render_target_resource));
+				pD3DDevice->CreateRenderTargetView(g_FrameContext[i].main_render_target_resource, nullptr, rtvHandle);
+				rtvHandle.ptr += rtvDescriptorSize;
+			}
+
+		}
+
+		{
+			ID3D12CommandAllocator* allocator;
+			if (pD3DDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator)) != S_OK) {
+				return presentO(pSwapChain, SyncInterval, Flags);
+			}
+
+			for (size_t i = 0; i < g_FrameBufferCount; i++) {
+				if (pD3DDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&g_FrameContext[i].command_allocator)) != S_OK) {
+					return presentO(pSwapChain, SyncInterval, Flags);
+				}
+			}
+
+			if (pD3DDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, g_FrameContext[0].command_allocator, NULL, IID_PPV_ARGS(&g_pD3DCommandList)) != S_OK || g_pD3DCommandList->Close() != S_OK) {
+				return presentO(pSwapChain, SyncInterval, Flags);
+			}
+		}
+
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
+		io.IniFilename = nullptr;
+
+		ImGui_ImplWin32_Init(window);
+		ImGui_ImplDX12_Init(pD3DDevice, g_FrameBufferCount,
+			DXGI_FORMAT_R8G8B8A8_UNORM, g_pD3DSrvDescHeap,
+			g_pD3DSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
+			g_pD3DSrvDescHeap->GetGPUDescriptorHandleForHeapStart());
+
 		ImGui_Initialised = true;
+
+		pD3DDevice->Release();
 	}
 
-	if (DirectX12Interface::CommandQueue == nullptr)
-		return presentO(pSwapChain, SyncInterval, Flags);
-
-	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
+	ImGui_ImplDX12_NewFrame();
 	ImGui::NewFrame();
 
 	RenderEvent e(true);
 	EventHandler<RenderEvent>::trigger(e);
-	DirectX12Interface::_FrameContext& CurrentFrameContext = DirectX12Interface::FrameContext[pSwapChain->GetCurrentBackBufferIndex()];
-	CurrentFrameContext.CommandAllocator->Reset();
 
-	D3D12_RESOURCE_BARRIER Barrier;
-	Barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	Barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	Barrier.Transition.pResource = CurrentFrameContext.Resource;
-	Barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-	Barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
-	Barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	FrameContext& currentFrameContext = g_FrameContext[pSwapChain->GetCurrentBackBufferIndex()];
+	currentFrameContext.command_allocator->Reset();
 
-	DirectX12Interface::CommandList->Reset(CurrentFrameContext.CommandAllocator, nullptr);
-	DirectX12Interface::CommandList->ResourceBarrier(1, &Barrier);
-	DirectX12Interface::CommandList->OMSetRenderTargets(1, &CurrentFrameContext.DescriptorHandle, FALSE, nullptr);
-	DirectX12Interface::CommandList->SetDescriptorHeaps(1, &DirectX12Interface::DescriptorHeapImGuiRender);
-	ImGui::EndFrame();
-
+	D3D12_RESOURCE_BARRIER barrier;
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = currentFrameContext.main_render_target_resource;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	g_pD3DCommandList->Reset(currentFrameContext.command_allocator, nullptr);
+	g_pD3DCommandList->ResourceBarrier(1, &barrier);
+	g_pD3DCommandList->OMSetRenderTargets(1, &currentFrameContext.main_render_target_descriptor, FALSE, nullptr);
+	g_pD3DCommandList->SetDescriptorHeaps(1, &g_pD3DSrvDescHeap);
 	ImGui::Render();
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DirectX12Interface::CommandList);
-	Barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	Barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-	DirectX12Interface::CommandList->ResourceBarrier(1, &Barrier);
-	DirectX12Interface::CommandList->Close();
-	DirectX12Interface::CommandQueue->ExecuteCommandLists(1, reinterpret_cast<ID3D12CommandList* const*>(&DirectX12Interface::CommandList));
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), g_pD3DCommandList);
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	g_pD3DCommandList->ResourceBarrier(1, &barrier);
+	g_pD3DCommandList->Close();
+
+	g_pD3DCommandQueue->ExecuteCommandLists(1, (ID3D12CommandList**)&g_pD3DCommandList);
+	
 	return presentO(pSwapChain, SyncInterval, Flags);
+}
+
+typedef HRESULT(__thiscall* resizebuffers_o)(IDXGISwapChain3* pSwapChain, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags);
+resizebuffers_o resizebuffersO;
+
+HRESULT resizebuffersH(IDXGISwapChain3* pSwapChain, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags) {
+	if (ImGui_Initialised) {
+		ImGui_ImplWin32_Shutdown();
+		ImGui_ImplDX12_Shutdown();
+		ImGui_Initialised = false;
+	}
+	g_pD3DCommandQueue = nullptr;
+	g_FrameContext.clear();
+	g_pD3DCommandList = nullptr;
+	g_pD3DRtvDescHeap = nullptr;
+	g_pD3DSrvDescHeap = nullptr;
+	return resizebuffersO(pSwapChain, BufferCount, Width, Height, NewFormat, SwapChainFlags);
 }
 
 typedef void(__thiscall* ExecuteCommandListsD3D12)(ID3D12CommandQueue*, UINT, ID3D12CommandList*);
 ExecuteCommandListsD3D12 oExecuteCommandListsD3D12;
 
 void hookExecuteCommandListsD3D12(ID3D12CommandQueue* queue, UINT NumCommandLists, ID3D12CommandList* ppCommandLists) {
-	if (!DirectX12Interface::CommandQueue)
-		DirectX12Interface::CommandQueue = queue;
+	if (!g_pD3DCommandQueue)
+		g_pD3DCommandQueue = queue;
 
 	oExecuteCommandListsD3D12(queue, NumCommandLists, ppCommandLists);
 };
@@ -146,11 +181,13 @@ void DirectXHook::patch() {
 	if (kiero::init(kiero::RenderType::D3D12) == kiero::Status::Success) {
 		kiero::bind(140, (void**)&presentO, presentH);
 		kiero::bind(54, (void**)&oExecuteCommandListsD3D12, hookExecuteCommandListsD3D12);
+		kiero::bind(145, (void**)&resizebuffersO, resizebuffersH);
 	}
 }
 
 void DirectXHook::disablePatch() {
 	kiero::unbind(140);
 	kiero::unbind(54);
+	kiero::unbind(145);
 	kiero::shutdown();
 }

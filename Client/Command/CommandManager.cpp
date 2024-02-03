@@ -15,14 +15,15 @@ CommandManager::CommandManager(){
 	>();
 }
 
-std::unique_ptr<Command>& CommandManager::findCommand(std::string name) {
+Command* CommandManager::findCommand(std::string name) {
 	for (auto& instance : this->items) {
 		for (auto n : instance->names) {
 			if (n == name) {
-				return instance;
+				return instance.get();
 			}
 		}
 	}
+	return nullptr;
 }
 
 void CommandManager::executeCommand(std::string rawCommandString) {
@@ -38,7 +39,7 @@ void CommandManager::executeCommand(std::string rawCommandString) {
 		a.erase(0, pos + hold.length());
 	}
 
-	auto& instance = this->findCommand(splitArgs.at(0));
+	auto instance = this->findCommand(splitArgs.at(0));
 	if (instance != nullptr) {
 		splitArgs.erase(splitArgs.begin()); // remove command name from arg list
 		return instance->execute(splitArgs);
