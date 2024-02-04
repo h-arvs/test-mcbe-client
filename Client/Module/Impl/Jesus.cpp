@@ -35,6 +35,8 @@ void Jesus::onInWaterCheck(DoInWaterSensingEvent& e) {
 	auto p = System::tryGetSystem()->getGame().getClientInstance()->getClientPlayer();
 	auto id = p->getEntityContext().id;
 	if (id != e.getEntityId()) return;
+	if (p->getEntityContext().hasComponent<FlagComponent<ActorHeadInWaterFlag>>()) return;
+	p->getEntityContext().removeComponent<FlagComponent<InWaterFlag>>();
 	e.cancel();
 }
 
@@ -46,7 +48,7 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 	auto cs = p->getDimension()->getChunkSource();
 	if (cs != e.getChunkSource()) return;
 
-	auto sneaking = p->getStatusFlag(ActorFlags::SNEAKING);
+	auto sneaking = this->shift == Action::PRESSED;
 	
 	auto first = ec.tryGetComponent<AABBShapeComponent>()->aabb.first;
 	auto playerpos = ec.tryGetComponent<StateVectorComponent>()->currentPos;
@@ -58,6 +60,9 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 		ec.tryGetComponent<StateVectorComponent>()->velocity.y = -0.2f;
 		return;
 	}
+
+	bool thing = ec.hasComponent<FlagComponent<InWaterFlag>>();
+	if (thing) return;
 
 	auto pos = e.getBlockPos();
 	auto liquidblock = bs->getLiquidBlock(pos);
