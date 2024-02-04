@@ -49,25 +49,24 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 	auto sneaking = p->getStatusFlag(ActorFlags::SNEAKING);
 	
 	auto first = ec.tryGetComponent<AABBShapeComponent>()->aabb.first;
-	auto second = ec.tryGetComponent<AABBShapeComponent>()->aabb.second;
-	auto under =  Vec3<float>(std::midpoint(first.x, second.x), floor(first.y - 0.1), std::midpoint(first.z, second.z));
-	auto bp = static_cast<BlockPos>(under);
+	auto playerpos = ec.tryGetComponent<StateVectorComponent>()->currentPos;
+	auto under = static_cast<BlockPos>(Vec3<float>(playerpos.x, floor(first.y - 0.2), playerpos.z));
 	auto bs = p->getDimension()->getBlockSource();
-	auto b = bs->getBlock(bp);
-	auto m = b->getMaterial();
-	auto check = m->isType(MaterialType::Water);
-	if (sneaking && check) {
+	auto b = bs->getLiquidBlock(under);
+
+	if (sneaking && b->getMaterial()->isType(MaterialType::Water)) {
 		ec.tryGetComponent<StateVectorComponent>()->velocity.y = -0.2f;
 		return;
 	}
 
-	if (e.getBlockLegacy()->tileName == "tile.water") {
-		auto pos = e.getBlockPos();
+	auto pos = e.getBlockPos();
+	auto liquidblock = bs->getLiquidBlock(pos);
+	if (liquidblock->getMaterial()->isType(MaterialType::Water)) {
 		auto a = Vec3<float>(pos);
 		auto state = LiquidBlock::getDepth(
 			bs,
 			pos,
-			e.getBlockLegacy()->getMaterial()
+			liquidblock->getMaterial()
 			);
 		auto depth = LiquidBlock::getHeightFromDepth(state);
 		e.addShape(AABB(a, a + Vec3<float>(1, 1 - depth, 1)));

@@ -16,5 +16,6 @@ void TestModule::onDisable() {
 }
 
 void TestModule::onUpdate(ClientInstanceUpdateEvent& e) {
-	
+	auto bp = e.getClientInstance()->getClientPlayer()->getBlockPosCurrentlyStandingOn();
+	auto dosmth = bp;
 }
