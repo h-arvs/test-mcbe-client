@@ -6,17 +6,17 @@
 class ClientInstance {
 public:
 	GuiData* getGuiData() {
-		return hat::member_at<GuiData*>(this, 0x560);
+		return hat::member_at<GuiData*>(this, 0x558);
 	}
 
 	void dropCursor() const
 	{
-		return vftCall<326, void>(this);
+		return vftCall<327, void>(this);
 	}
 
 	void acquireCursor() const
 	{
-		return vftCall<327, void>(this);
+		return vftCall<328, void>(this);
 	}
 
 	LocalPlayer* getClientPlayer() {

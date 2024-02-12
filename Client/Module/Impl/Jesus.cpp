@@ -52,7 +52,8 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 	
 	auto first = ec.tryGetComponent<AABBShapeComponent>()->aabb.first;
 	auto playerpos = ec.tryGetComponent<StateVectorComponent>()->currentPos;
-	auto under = static_cast<BlockPos>(Vec3<float>(playerpos.x, floor(first.y - 0.2), playerpos.z));
+	auto bottom = static_cast<BlockPos>(Vec3<float>(floor(playerpos.x), first.y, playerpos.z));
+	auto under = static_cast<BlockPos>(Vec3<float>(floor(playerpos.x), floor(first.y - 0.2), playerpos.z));
 	auto bs = p->getDimension()->getBlockSource();
 	auto b = bs->getLiquidBlock(under);
 
@@ -61,8 +62,9 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 		return;
 	}
 
-	bool thing = ec.hasComponent<FlagComponent<InWaterFlag>>();
+	bool thing = ec.hasComponent<FlagComponent<ActorHeadInWaterFlag>>();
 	if (thing) return;
+
 
 	auto pos = e.getBlockPos();
 	auto liquidblock = bs->getLiquidBlock(pos);

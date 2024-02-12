@@ -15,11 +15,11 @@ public:
 	}
 
 	Dimension* getDimension() {
-		return hat::member_at<Dimension*>(this, 0x278);
+		return hat::member_at<Dimension*>(this, 0x280);
 	}
 
 	StateVectorComponent* getStateVectorComponent() {
-		return hat::member_at<StateVectorComponent*>(this, 0x2C8);
+		return hat::member_at<StateVectorComponent*>(this, 0x2D0);
 	}
 
 	SynchedActorDataEntityWrapper* getSynchedActorDataEntityWrapper() {
