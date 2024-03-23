@@ -18,7 +18,8 @@ struct Vec3 {
 	}
 };
 
-struct BlockPos : public Vec3<int> {};
+struct BlockPos : public Vec3<int> {
+};
 
 struct AABB {
 	Vec3<float> first{ 0, 0, 0 };

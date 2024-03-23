@@ -28,6 +28,10 @@ public:
 		this->shapes.push_back(aabb);
 	}
 
+	void clearShapes() {
+		this->shapes.clear();
+	}
+
 	BlockLegacy* getBlockLegacy() {
 		return this->blockLegacy;
 	}

@@ -10,7 +10,7 @@ void __fastcall ClientInstanceUpdateCallback(ClientInstance* ci) {
 }
 
 void CIUpdateHook::patch() {
-	auto sig = "48 89 5c 24 ? 48 89 74 24 ? 55 57 41 54 41 56 41 57 48 8d ac 24 ? ? ? ? 48 81 ec ? ? ? ? 48 8b 05 ? ? ? ? 48 33 c4 48 89 85 ? ? ? ? 44 0f b6 f2 48 8b f1";
+	auto sig = "48 89 5C 24 ? 48 89 74 24 ? 55 57 41 54 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 0F B6 F2 48 8B F9 45 33 E4";
 	this->autoPatch(sig, &ClientInstanceUpdateCallback, &ClientInstanceUpdateO);
 }
 

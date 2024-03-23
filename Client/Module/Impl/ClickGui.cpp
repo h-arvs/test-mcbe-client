@@ -36,7 +36,7 @@ void ClickGui::onMouse(MouseInputEvent& e) {
 void ClickGui::onRender(RenderEvent&) {
 	auto window = ImGui::GetBackgroundDrawList();
 	auto size = ImGui::GetIO().DisplaySize;
-	window->AddRectFilled(ImVec2(0, 0), size, IM_COL32(0, 0, 0, 128));
+	//window->AddRectFilled(ImVec2(0, 0), size, IM_COL32(0, 0, 0, 128));
 	ImGui::SetNextWindowSize(ImVec2(700, 500));
 	ImGui::Begin("Click Gui", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 	for (auto& catagory : System::tryGetSystem()->getModuleManager().items) {
@@ -53,7 +53,7 @@ void ClickGui::onRender(RenderEvent&) {
 			{
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.5f, 0.5f, 1.0f));	
-			}
+			}				
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));
 			if (ImGui::Button(mod->name.c_str())) {
 				mod->toggle();

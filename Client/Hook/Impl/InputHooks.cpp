@@ -13,7 +13,7 @@ void __fastcall mouseHookCallback(void* self, char button, char action, short mo
 		io.AddMouseButtonEvent(button - 1, action);
 	}
 	if (button == 4) {
-		io.AddMouseWheelEvent(0, static_cast<float>(action));
+		io.AddMouseWheelEvent(0, static_cast<int8_t>(action));
 	}
 	else {
 		io.AddMousePosEvent(mouseX, mouseY);
