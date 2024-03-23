@@ -26,7 +26,7 @@ download(magic_enum https://github.com/Neargye/magic_enum 414fb654d36620f7b899f7
 add_compile_definitions(ENTT_SPARSE_PAGE=2048)
 add_compile_definitions(ENTT_PACKED_PAGE=128)
 
-# LIBHAT LI BAT LIBHAT LIBAHAT MOREE LIBJHAT
+# LIBHAT LI BAT LIBHAT LIBAHAT MOREE LIBJHAT more libhat :))
 add_subdirectory(Client)
 add_subdirectory(Utils)
 add_subdirectory(Include)
