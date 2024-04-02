@@ -1,1 +1,1 @@
-target_sources(client PRIVATE "TestModule.cpp" "ClickGui.cpp" "Jesus.cpp")
+target_sources(client PRIVATE "CollisionEditor.cpp" "ClickGui.cpp" "Jesus.cpp" "BlockEditor.cpp")

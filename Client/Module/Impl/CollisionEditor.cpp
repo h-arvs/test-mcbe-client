@@ -1,4 +1,4 @@
-#include "TestModule.h"
+#include "CollisionEditor.h"
 #include "../../Event/Impl/CIUpdateEvent.h"
 
 #include "../../System.h"
@@ -9,14 +9,12 @@
 #include <imgui.h>
 #include <fstream>
 
-TestModule::TestModule() : Module("Test Module", "Module for testing") {
-	this->bind(112);
+CollisionEditor::CollisionEditor() : Module("Collision Editor", "Edit the aabbs on blocks") {
 }
 
-void TestModule::onEnable() {
-	this->listen<ClientInstanceUpdateEvent, &TestModule::onUpdate>();
-	this->listen<RenderEvent, &TestModule::onRender>();
-	this->listen<AddShapesEvent, &TestModule::onAddShapesEvent>();
+void CollisionEditor::onEnable() {
+	this->listen<RenderEvent, &CollisionEditor::onRender>();
+	this->listen<AddShapesEvent, &CollisionEditor::onAddShapesEvent>();
 	this->blockPalette = System::tryGetSystem()->getGame().getClientInstance()->getClientPlayer()->getLevel()->getBlockPallete();
 	for (int i = 0; i < this->blockPalette->getBlocks().size(); ++i) {
 		auto block = this->blockPalette->getBlocks()[i];
@@ -27,17 +25,12 @@ void TestModule::onEnable() {
 	}
 }
 
-void TestModule::onDisable() {
-	this->deafen<ClientInstanceUpdateEvent>();
+void CollisionEditor::onDisable() {
 	this->deafen<RenderEvent>();
 	this->deafen<AddShapesEvent>();
 }
 
-void TestModule::onUpdate(ClientInstanceUpdateEvent& e) {
-	
-}
-
-void TestModule::onAddShapesEvent(AddShapesEvent& e) {
+void CollisionEditor::onAddShapesEvent(AddShapesEvent& e) {
 	if (this->aabbLookupMap.find(e.getBlockLegacy()->tileName) != this->aabbLookupMap.end()) {
 		e.clearShapes();
 		auto custom = this->aabbLookupMap.at(e.getBlockLegacy()->tileName);
@@ -46,7 +39,7 @@ void TestModule::onAddShapesEvent(AddShapesEvent& e) {
 	}
 }
 
-void TestModule::onRender(RenderEvent& e) {
+void CollisionEditor::onRender(RenderEvent& e) {
 	ImGui::Begin("BlockSelection");
 	for (auto& name : this->map) {
 		ImGui::Checkbox(name.first.c_str(), &name.second);

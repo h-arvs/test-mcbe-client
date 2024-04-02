@@ -16,15 +16,11 @@ public:
 	}
 
 	Dimension* getDimension() {
-		return hat::member_at<Dimension*>(this, 0x280);
+		return hat::member_at<Dimension*>(this, 0x248);
 	}
 
 	StateVectorComponent* getStateVectorComponent() {
-		return hat::member_at<StateVectorComponent*>(this, 0x2D0);
-	}
-
-	SynchedActorDataEntityWrapper* getSynchedActorDataEntityWrapper() {
-		return hat::member_at<SynchedActorDataEntityWrapper*>(this, 0x190);
+		return hat::member_at<StateVectorComponent*>(this, 0x298);
 	}
 
 	BlockPos getBlockPosCurrentlyStandingOn() {
@@ -37,7 +33,7 @@ public:
 	}
 
 	Level* getLevel() {
-		return hat::member_at<Level*>(this, 0x290);
+		return hat::member_at<Level*>(this, 0x258);
 	}
 
 	virtual bool getStatusFlag(ActorFlags);

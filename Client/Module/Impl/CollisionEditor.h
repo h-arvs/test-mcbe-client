@@ -8,12 +8,11 @@ class Block;
 class BlockPalette;
 class AddShapesEvent;
 
-class TestModule : public Module {
+class CollisionEditor : public Module {
 public:
-	TestModule();
+	CollisionEditor();
 	void onEnable() override;
-	void onDisable() override;
-	void onUpdate(ClientInstanceUpdateEvent& e);
+	void onDisable() override; 
 	void onRender(RenderEvent&);
 	void onAddShapesEvent(AddShapesEvent& e);
 

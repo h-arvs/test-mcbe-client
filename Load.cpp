@@ -1,7 +1,6 @@
 ﻿
 #include "Client/System.h"
 #include "Client/Event/Impl/TestEvent.h"
-#include "Client/Module/Impl/TestModule.h"
 
 void init() {
 	AllocConsole();

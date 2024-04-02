@@ -11,7 +11,7 @@ enum class MouseButton {
 	None = 0,
 	Left = 1,
 	Right = 2,
-	Unkknown = 3,
+	Middle = 3,
 	Scroll = 4
 };
 

@@ -9,6 +9,6 @@ public:
 	}
 
 	ChunkSource* getChunkSource() {
-		return hat::member_at<ChunkSource*>(this, 0x198);
+		return hat::member_at<ChunkSource*>(this, 0x1A0);
 	}
 };
