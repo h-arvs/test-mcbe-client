@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Utils/Manager.h"
-#include "../../Utils/String.h"
+#include "../../Utils/StringUtil.h"
 #include "Module.h"
 
 class Catagory : public Manager<Module> {

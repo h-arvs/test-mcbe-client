@@ -1,1 +1,1 @@
-target_sources(client PRIVATE "Mem.cpp")
+target_sources(client PRIVATE "Mem.cpp" "MiscUtil.h" "ImageUtil.h")

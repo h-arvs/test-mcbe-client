@@ -1,7 +1,12 @@
 #include "System.h"
+#include "../Utils/MiscUtil.h"
+#include <filesystem>
 
 System* System::currentInstance = nullptr;
 System::System() {
+
+	this->checkAndCreateStorage();
+
 	System::currentInstance = this;
 	this->moduleManager = std::make_unique<ModuleManager>();
 	this->commandManager = std::make_unique<CommandManager>();
@@ -27,4 +32,9 @@ auto System::getGame() -> Game& {
 
 auto System::getModuleManager() -> ModuleManager& {
 	return *this->moduleManager;
+}
+
+void System::checkAndCreateStorage() {
+	std::filesystem::path path = MiscUtil::GetRoamingState() + "\\" + this->name;
+	if (!std::filesystem::exists(path)) std::filesystem::create_directory(path);
 }

@@ -16,8 +16,8 @@ HookManager::HookManager() {
 		KeyBoardInputHook,
 		MouseInputHook,
 		AddShapesHook,
-		InWaterSensingSystemHook,
-		TestHook
+		InWaterSensingSystemHook
+		// TestHook
 	>();
 }
 

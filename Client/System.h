@@ -10,7 +10,10 @@ class System : public Listener{
 	std::unique_ptr<CommandManager> commandManager = nullptr;
 	std::unique_ptr<ModuleManager> moduleManager = nullptr;
 	std::unique_ptr<Game> game = nullptr;
+
+	void checkAndCreateStorage();
 public:
+	std::string name = "TestClient";
 	System();
 	static System* tryGetSystem();
 	auto getHookManager() -> HookManager&;
