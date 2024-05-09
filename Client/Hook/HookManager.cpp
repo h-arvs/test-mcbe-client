@@ -5,6 +5,7 @@
 #include "Impl/InputHooks.h"
 #include "Impl/AddShapesHook.h"
 #include "Impl/InWaterSensingSystemHook.h"
+#include "Impl/TestHook.h"
 
 HookManager::HookManager() {
 	MH_Initialize();
@@ -15,7 +16,8 @@ HookManager::HookManager() {
 		KeyBoardInputHook,
 		MouseInputHook,
 		AddShapesHook,
-		InWaterSensingSystemHook
+		InWaterSensingSystemHook,
+		TestHook
 	>();
 }
 

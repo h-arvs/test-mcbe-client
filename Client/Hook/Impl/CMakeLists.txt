@@ -1,1 +1,1 @@
-target_sources(client PRIVATE "PacketSendHook.cpp" "Hook.cpp" "CIUpdateHook.cpp" "DXHook.cpp" "InputHooks.cpp" "AddShapesHook.cpp" "InWaterSensingSystemHook.cpp")
+target_sources(client PRIVATE "PacketSendHook.cpp" "Hook.cpp" "CIUpdateHook.cpp" "DXHook.cpp" "InputHooks.cpp" "AddShapesHook.cpp" "InWaterSensingSystemHook.cpp" "TestHook.cpp")
