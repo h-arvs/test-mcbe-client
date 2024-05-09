@@ -11,13 +11,15 @@ class System : public Listener{
 	std::unique_ptr<ModuleManager> moduleManager = nullptr;
 	std::unique_ptr<Game> game = nullptr;
 
-	void checkAndCreateStorage();
+	std::filesystem::path checkAndCreateStorage();
 public:
-	std::string name = "TestClient";
+	static constexpr std::string name = "TestClient";
 	System();
 	static System* tryGetSystem();
 	auto getHookManager() -> HookManager&;
 	auto getCommandManager() -> CommandManager&;
 	auto getModuleManager() -> ModuleManager&;
 	auto getGame() -> Game&;
+
+	static std::string getStoragePath();
 };

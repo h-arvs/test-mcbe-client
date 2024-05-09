@@ -6,12 +6,12 @@ System* System::currentInstance = nullptr;
 System::System() {
 
 	this->checkAndCreateStorage();
-
 	System::currentInstance = this;
 	this->moduleManager = std::make_unique<ModuleManager>();
 	this->commandManager = std::make_unique<CommandManager>();
 	this->game = std::make_unique<Game>();
 	this->hookManager = std::make_unique<HookManager>();
+
 }
 
 System* System::tryGetSystem() {
@@ -34,7 +34,12 @@ auto System::getModuleManager() -> ModuleManager& {
 	return *this->moduleManager;
 }
 
-void System::checkAndCreateStorage() {
+std::filesystem::path System::checkAndCreateStorage() {
 	std::filesystem::path path = MiscUtil::GetRoamingState() + "\\" + this->name;
 	if (!std::filesystem::exists(path)) std::filesystem::create_directory(path);
+	return path;
+}
+
+std::string System::getStoragePath() {
+	return MiscUtil::GetRoamingState() + "\\" + System::name + "\\";
 }

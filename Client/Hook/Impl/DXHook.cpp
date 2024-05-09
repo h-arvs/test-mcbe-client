@@ -8,6 +8,9 @@
 #include <atlbase.h>
 #include "../../Event/Impl/RenderEvent.h"
 #include "../../Event/EventHandler.h"
+#include "../../../Utils/ImageUtil.h"
+#include "../../../Utils/MiscUtil.h"
+#include "../../System.h"
 
 bool ImGui_Initialised = false;
 
@@ -112,6 +115,7 @@ HRESULT presentH(IDXGISwapChain3* pSwapChain, UINT SyncInterval, UINT Flags) {
 			g_pD3DSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
 			g_pD3DSrvDescHeap->GetGPUDescriptorHandleForHeapStart());
 
+		ImageUtil::loadTextureFromPath(50, 50, System::getStoragePath() + "sponge.png", pD3DDevice, g_FrameBufferCount);
 		ImGui_Initialised = true;
 
 		pD3DDevice->Release();
