@@ -6,10 +6,10 @@
 class Level {
 public:
 	BlockPalette* getBlockPallete() {
-		return hat::member_at<BlockPalette*>(this, 0xAA8);
+		return hat::member_at<BlockPalette*>(this, 0xAC0);
 	}
 
 	HitResult* getHitResult() {
-		return hat::member_at<HitResult*>(this, 0xB18);
+		return hat::member_at<HitResult*>(this, 0xB30);
 	}
 };
