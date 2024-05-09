@@ -18,6 +18,7 @@ struct ResourceData {
 #undef max
 
 namespace ImageUtil {
+    inline std::vector<ResourceData*> resources;
 	static void getTextureDataFromPath(
 		std::string& path,
 		char** out_pixels
@@ -188,6 +189,7 @@ namespace ImageUtil {
         }
 
 		delete[] pixels;
+        resources.emplace_back(bd);
 		return bd;
 	}
 

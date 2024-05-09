@@ -2,6 +2,7 @@
 #include "../../Event/Impl/RenderEvent.h"
 #include "../../Event/Impl/KeyInputEvent.h"
 #include "../../Event/Impl/MouseInputEvent.h"
+#include "../../../Utils/ImageUtil.h"
 #include <imgui.h>
 #include "../../System.h"
 
@@ -59,6 +60,9 @@ void ClickGui::onRender(RenderEvent&) {
 				mod->toggle();
 			};
 			ImGui::PopStyleColor(3);
+
+			auto rd = ImageUtil::resources[0];
+			ImGui::Image((ImTextureID)rd->hSrvGpuDescHandle.ptr, ImVec2(50, 50));
 		}
 	}
 	ImGui::End();
