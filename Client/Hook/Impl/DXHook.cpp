@@ -109,13 +109,15 @@ HRESULT presentH(IDXGISwapChain3* pSwapChain, UINT SyncInterval, UINT Flags) {
 		ImGuiIO& io = ImGui::GetIO();
 		io.IniFilename = nullptr;
 
+		ImageUtil::loadTextureFromPath(50, 50, System::getStoragePath() + "sponge.png", pD3DDevice, g_FrameBufferCount);
+
 		ImGui_ImplWin32_Init(window);
 		ImGui_ImplDX12_Init(pD3DDevice, g_FrameBufferCount,
 			DXGI_FORMAT_R8G8B8A8_UNORM, g_pD3DSrvDescHeap,
 			g_pD3DSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
 			g_pD3DSrvDescHeap->GetGPUDescriptorHandleForHeapStart());
 
-		ImageUtil::loadTextureFromPath(50, 50, System::getStoragePath() + "sponge.png", pD3DDevice, g_FrameBufferCount);
+		
 		ImGui_Initialised = true;
 
 		pD3DDevice->Release();
