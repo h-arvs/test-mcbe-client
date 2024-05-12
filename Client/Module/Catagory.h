@@ -26,12 +26,8 @@ public:
 
 	template <class T> Module* get() {
 		auto id = entt::type_hash<T>();
-		for (auto& mod : this->modules) {
-			auto modid = mod.first;
-			if (modid == id) {
-				return mod.second;
-			}
-		}
+		auto lookup = this->modules.find(id);
+		if (lookup != this->modules.end()) return lookup->second;
 		return nullptr;
 	}
 
