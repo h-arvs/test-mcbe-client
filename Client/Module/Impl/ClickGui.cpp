@@ -60,9 +60,6 @@ void ClickGui::onRender(RenderEvent&) {
 				mod->toggle();
 			};
 			ImGui::PopStyleColor(3);
-
-			auto rd = ImageUtil::resources[0];
-			ImGui::Image((ImTextureID)rd->hSrvGpuDescHandle.ptr, ImVec2(50, 50));
 		}
 	}
 	ImGui::End();

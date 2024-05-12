@@ -7,6 +7,7 @@
 #include "../../SDK/Component/Flags/ActorHeadInWaterFlag.h"
 #include "../../SDK/Component/StateVectorComponent.h"
 #include "../../SDK/Component/AABBShapeComponent.h"
+#include "../../SDK/Component/MoveInputComponent.h"
 #include "../../SDK/LiquidBlock.h"
 
 #include <numeric>
