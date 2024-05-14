@@ -1,6 +1,7 @@
 #include "Jesus.h"
 #include "../../Event/Impl/AddShapesEvent.h"
 #include "../../Event/Impl/DoInWaterSensingEvent.h"
+#include "../../Event/Impl/DoInWaterSinkInputEvent.h"
 #include "../../System.h"
 #include "../../SDK/Component/Flags/FlagComponent.h"
 #include "../../SDK/Component/Flags/InWaterFlag.h"
@@ -18,26 +19,20 @@ Jesus::Jesus() : Module("Jesus", "Walk on water") {
 
 void Jesus::onEnable() {
 	this->listen<AddShapesEvent, &Jesus::onAddShapesEvent>();
-	this->listen<KeyInputEvent, &Jesus::onKey>();
 	this->listen<DoInWaterSensingEvent, &Jesus::onInWaterCheck>();
 }
 
 void Jesus::onDisable() {
 	this->deafen<AddShapesEvent>();
-	this->deafen<KeyInputEvent>();
 	this->deafen<DoInWaterSensingEvent>();
 }
 
-void Jesus::onKey(KeyInputEvent& e) {
-	if (e.getKey() == 16) this->shift = e.getAction();
-}
 
 void Jesus::onInWaterCheck(DoInWaterSensingEvent& e) {
 	auto p = System::tryGetSystem()->getGame().getClientInstance()->getClientPlayer();
-	auto id = p->getEntityContext().id;
-	if (id != e.getEntityId()) return;
-	if (p->getEntityContext().hasComponent<FlagComponent<ActorHeadInWaterFlag>>()) return;
-	p->getEntityContext().removeComponent<FlagComponent<InWaterFlag>>();
+	auto ec = p->getEntityContext();
+	if (ec.id != e.getEntityId()) return;
+	if (ec.tryGetComponent<MoveInputComponent>()->mWantDown || ec.hasComponent<FlagComponent<InWaterFlag>>()) return;
 	e.cancel();
 }
 
@@ -48,8 +43,6 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 
 	auto cs = p->getDimension()->getChunkSource();
 	if (cs != e.getChunkSource()) return;
-
-	auto sneaking = this->shift == Action::PRESSED;
 	
 	auto first = ec.tryGetComponent<AABBShapeComponent>()->aabb.first;
 	auto playerpos = ec.tryGetComponent<StateVectorComponent>()->currentPos;
@@ -58,13 +51,12 @@ void Jesus::onAddShapesEvent(AddShapesEvent& e) {
 	auto bs = p->getDimension()->getBlockSource();
 	auto b = bs->getLiquidBlock(under);
 
-	if (sneaking && b->getMaterial()->isType(MaterialType::Water)) {
+	if (ec.tryGetComponent<MoveInputComponent>()->mWantDown && b->getMaterial()->isType(MaterialType::Water)) {
 		ec.tryGetComponent<StateVectorComponent>()->velocity.y = -0.2f;
 		return;
 	}
 
-	bool thing = ec.hasComponent<FlagComponent<ActorHeadInWaterFlag>>();
-	if (thing) return;
+	if (ec.hasComponent<FlagComponent<InWaterFlag>>()) return;
 
 
 	auto pos = e.getBlockPos();
