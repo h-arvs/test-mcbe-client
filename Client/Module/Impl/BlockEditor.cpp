@@ -4,6 +4,9 @@
 #include "../../Event/Impl/RenderEvent.h"
 #include "../../Event/EventHandler.h"
 #include <ImGui.h>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 
 BlockEditor::BlockEditor() : Module("Block Editor", "Select blocks and edit them!") {
 }

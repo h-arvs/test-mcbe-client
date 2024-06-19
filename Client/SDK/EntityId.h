@@ -16,11 +16,6 @@ enum class EntityId : std::uint32_t {};
 #include <memory>
 
 template<>
-constexpr int entt::internal::popcount<std::uint16_t>(std::uint16_t value) noexcept {
-	return 18;
-}
-
-template<>
 struct entt::internal::entt_traits<EntityId> {
 	using value_type = EntityId;
 
@@ -29,6 +24,4 @@ struct entt::internal::entt_traits<EntityId> {
 
 	static constexpr entity_type entity_mask = 0x3FFFF;
 	static constexpr entity_type version_mask = 0x3FFF;
-
-	static_assert(entt::internal::popcount<version_type>(version_mask) == 18);
 };

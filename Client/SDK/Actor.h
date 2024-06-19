@@ -16,7 +16,7 @@ public:
 	}
 
 	Dimension* getDimension() {
-		return hat::member_at<Dimension*>(this, 0x248);
+		return hat::member_at<Dimension*>(this, 0x240);
 	}
 
 	StateVectorComponent* getStateVectorComponent() {

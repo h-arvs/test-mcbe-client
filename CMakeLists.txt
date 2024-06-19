@@ -20,7 +20,7 @@ endfunction()
 
 download(libhat https://github.com/BasedInc/libhat.git 82de2e6f19d3a5c0123d32ef6a5059034312df7b)
 download(minhook https://github.com/TsudaKageyu/minhook.git f5485b8454544c2f034c78f8f127c1d03dea3636)
-download(entt https://github.com/skypjack/entt.git fedcb920ce0068c35ffbc66fd4e84864e6ef71ef)
+download(entt https://github.com/skypjack/entt.git c2c5342ea4da9c13b029793097461662db6bb12e)
 download(magic_enum https://github.com/Neargye/magic_enum 414fb654d36620f7b899f782f2743e43122325f6)
 
 add_compile_definitions(ENTT_SPARSE_PAGE=2048)

@@ -11,12 +11,12 @@ public:
 
 	void dropCursor() const
 	{
-		return vftCall<331, void>(this);
+		return vftCall<330, void>(this);
 	}
 
 	void acquireCursor() const
 	{
-		return vftCall<332, void>(this);
+		return vftCall<331, void>(this);
 	}
 
 	LocalPlayer* getClientPlayer() {
